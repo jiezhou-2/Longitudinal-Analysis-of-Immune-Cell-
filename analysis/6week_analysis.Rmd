@@ -1,7 +1,7 @@
 ---
 title: "Analysis Based on 6-week Data"
 author: "Jie Zhou"
-date: "9/24/2021"
+date: "9/21/2022"
 output:  
   workflowr::wflow_html:
     toc: false
@@ -235,7 +235,7 @@ for (i in 1:73) {
 
 ## Regression analysis
 
-### Bcell
+###  Microbes associated with Bcell: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -270,7 +270,7 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```
 
-```{r}
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
@@ -278,7 +278,7 @@ rrbcellfdr
 
 
 
-## cd4t
+###  Microbes associated with CD4: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -313,11 +313,11 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```
 
-```{r}
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
-### cd8t
+###  Microbes associated with CD8: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -352,12 +352,12 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```
 
-```{r}
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
 
-## mono
+###  Microbes associated with Mono: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -393,12 +393,12 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```
 
-```{r}
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
 
-### nk
+###  Microbes associated with NK: FDR=0.1
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
@@ -431,13 +431,13 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```
 
-```{r}
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
 
 
-### nrbc
+###  Microbes associated with NRBC: FDR=0.1
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
@@ -471,11 +471,11 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```
 
-```{r}
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
-### gran
+###  Microbes associated with Gran: FDR=0.1
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
@@ -510,7 +510,7 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 
 ```
 
-```{r}
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 

@@ -1,7 +1,7 @@
 ---
 title: "Analysis Based on 12-Month Data"
 author: "Jie Zhou"
-date: "9/24/2021"
+date: "9/21/2022"
 output:  
   workflowr::wflow_html:
     toc: false
@@ -241,7 +241,7 @@ for (i in 1:73) {
 
 ## Regression analysis
 
-### Bcell
+### Microbes associated with Bcell: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -274,18 +274,17 @@ fdr=p.adjust(rrbcell[,2],method = "BH")
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
+```
+
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
-```{r}
-rrbcellfdr
-```
 
 
 
 
-
-### cd4t
+###  Microbes associated with CD4: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -321,13 +320,13 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```
 
 
-```{r}
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
 
 
-### cd8t
+###  Microbes associated with CD8: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -362,12 +361,12 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```
 
-```{r}
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
 
-### mono
+###  Microbes associated with mono: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -402,11 +401,11 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```
 
-```{r}
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
-### nk
+###  Microbes associated with NK: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -438,17 +437,16 @@ fdr=p.adjust(rrbcell[,2],method = "BH")
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
+```
+
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
-```{r}
-rrbcellfdr
-```
 
 
 
-
-### nrbc
+###  Microbes associated with NRBC: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -481,15 +479,14 @@ fdr=round(p.adjust(rrbcell[,2],method = "BH"),3)
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
+```
+
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
-```{r}
-rrbcellfdr
-```
 
-
-### gran
+###  Microbes associated with Gran: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -525,7 +522,7 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```
 
-```{r}
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 

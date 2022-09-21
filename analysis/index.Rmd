@@ -7,9 +7,10 @@ output:
 editor_options:
   chunk_output_type: console
 ---
-Analysis between Cord Blood Immune Cell and Gut Microbiome
 
-# Model
+# Association Analysis between Cord Blood Immune Cell and Gut Microbiome
+
+## Model
 
 [Analysis Based on 6-Week Data](6week_analysis.html)
 

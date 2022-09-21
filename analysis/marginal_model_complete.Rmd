@@ -1,7 +1,7 @@
 ---
 title: "Analysis Based on Longitudinal  Data"
 author: "Jie Zhou"
-date: "9/24/2021"
+date: "9/21/2022"
 output:  
   workflowr::wflow_html:
     toc: false
@@ -242,7 +242,7 @@ library(gee)
 
 ## Regression analysis
 
-### Bcell
+###  Microbes associated with Bcell: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -287,7 +287,7 @@ rrbcellfdr
 
 
 
-### cd4t
+###  Microbes associated with CD4: FDR=0.1
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
@@ -319,7 +319,7 @@ for (k in 1:m) {
 For CD4, GEE method does not yield any significant results.
 
 
-### cd8t
+###  Microbes associated with CD8: FDR=0.1
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
@@ -352,7 +352,7 @@ for (k in 1:m) {
 
 For CD8, GEE method does not yield any significant results. 
 
-### mono
+###  Microbes associated with Mono: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -384,7 +384,6 @@ fdr=p.adjust(rrbcell[,2],method = "BH")
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.4),]
-rrbcellfdr
 ```
 
 ```{r,echo=FALSE}
@@ -392,7 +391,7 @@ rrbcellfdr
 ```
 
 
-### nk
+###  Microbes associated with NK: FDR=0.1
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
@@ -423,14 +422,13 @@ fdr=p.adjust(rrbcell[,2],method = "BH")
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.3),]
-rrbcellfdr
 ```
 
 ```{r,echo=FALSE}
 rrbcellfdr
 ```
 
-### nrbc
+###  Microbes associated with NRBC: FDR=0.1
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -462,13 +460,13 @@ fdr=round(p.adjust(rrbcell[,2],method = "BH"),3)
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.3),]
-rrbcellfdr
 ```
+
 ```{r,echo=FALSE}
 rrbcellfdr
 ```
 
-### gran
+###  Microbes associated with Gran: FDR=0.1
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
@@ -499,7 +497,6 @@ fdr=round(p.adjust(rrbcell[,2],method = "BH"),3)
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.4),]
-rrbcellfdr
 ```
 ```{r,echo=FALSE}
 rrbcellfdr
