@@ -237,7 +237,7 @@ for (i in 1:73) {
 
 ### Bcell
 
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -280,7 +280,7 @@ rrbcellfdr
 
 ## cd4t
 
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -319,7 +319,7 @@ rrbcellfdr
 
 ### cd8t
 
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -359,7 +359,7 @@ rrbcellfdr
 
 ## mono
 
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -399,7 +399,7 @@ rrbcellfdr
 
 
 ### nk
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -438,7 +438,7 @@ rrbcellfdr
 
 
 ### nrbc
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -476,7 +476,7 @@ rrbcellfdr
 ```
 
 ### gran
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)

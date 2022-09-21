@@ -244,7 +244,7 @@ library(gee)
 
 ### Bcell
 
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -288,7 +288,7 @@ rrbcellfdr
 
 
 ### cd4t
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -320,7 +320,7 @@ For CD4, GEE method does not yield any significant results.
 
 
 ### cd8t
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -354,7 +354,7 @@ For CD8, GEE method does not yield any significant results.
 
 ### mono
 
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -393,7 +393,7 @@ rrbcellfdr
 
 
 ### nk
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -432,7 +432,7 @@ rrbcellfdr
 
 ### nrbc
 
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -469,7 +469,7 @@ rrbcellfdr
 ```
 
 ### gran
-```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)

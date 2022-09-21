@@ -243,7 +243,7 @@ for (i in 1:73) {
 
 ### Bcell
 
-```{r}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -277,6 +277,9 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 rrbcellfdr
 ```
 
+```{r}
+rrbcellfdr
+```
 
 
 
@@ -284,7 +287,7 @@ rrbcellfdr
 
 ### cd4t
 
-```{r}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -315,13 +318,18 @@ fdr=p.adjust(rrbcell[,2],method = "BY")
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
+```
+
+
+```{r}
 rrbcellfdr
 ```
 
 
+
 ### cd8t
 
-```{r}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -352,14 +360,16 @@ fdr=p.adjust(rrbcell[,2],method = "BY")
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
+```
+
+```{r}
 rrbcellfdr
 ```
 
 
-
 ### mono
 
-```{r}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -390,13 +400,15 @@ fdr=p.adjust(rrbcell[,2],method = "BH")
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
+```
+
+```{r}
 rrbcellfdr
 ```
 
-
 ### nk
 
-```{r}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -429,12 +441,16 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 rrbcellfdr
 ```
 
+```{r}
+rrbcellfdr
+```
+
 
 
 
 ### nrbc
 
-```{r}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -468,9 +484,14 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 rrbcellfdr
 ```
 
+```{r}
+rrbcellfdr
+```
+
+
 ### gran
 
-```{r}
+```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -502,6 +523,9 @@ fdr=round(p.adjust(rrbcell[,2],method = "BH"),3)
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
+```
+
+```{r}
 rrbcellfdr
 ```
 
