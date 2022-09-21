@@ -112,7 +112,7 @@ data6w12m=data6w12m[index,]
 ```
 
 
-### align the metabolome data with immunce cell data
+### align the microbiome data with immunce cell data
 
 ```{r}
 overlap=intersect(data6w_swell$subject,data12m_swell$subject)

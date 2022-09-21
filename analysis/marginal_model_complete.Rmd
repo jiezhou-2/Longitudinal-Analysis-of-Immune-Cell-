@@ -110,7 +110,7 @@ save(data6w12m,file = "data6w12m.Rdata")
 ```
 
 
-### align the metabolome data with immunce cell data
+### align the microbiome data with immunce cell data
 
 ```{r}
 overlap=intersect(data6w_swell$subject,data12m_swell$subject)
