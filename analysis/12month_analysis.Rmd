@@ -14,6 +14,8 @@ output:
 ## clean the data
 
 ### Input data
+<details>
+<summary> Click me </summary>
 
 
 ```{r}
@@ -69,10 +71,12 @@ for (i in 1:length(subject12m)) {
 data12m=cbind(subject12m,12,data12m)
 ```
 
-
+</details>
 
 
 ### combine 6-week and 12-month data
+<details>
+<summary> Click me </summary>
 
 ```{r}
 colnames(data6w)[1:2]=c("subject","time")
@@ -111,8 +115,11 @@ index=order(data6w12m$subject,data6w12m$time)
 data6w12m=data6w12m[index,]
 ```
 
+</details>
 
 ### align the microbiome data with immunce cell data
+<details>
+<summary> Click me </summary>
 
 ```{r}
 overlap=intersect(data6w_swell$subject,data12m_swell$subject)
@@ -168,9 +175,11 @@ longink=rbind(df.nkadj6w,df.nkadj_o)
 longinrbc=rbind(df.nrbcadj6w,df.nrbcadj_o)
 longigran=rbind(df.granadj6w,df.granadj_o)
 ```
-
+</details>
 
 ### compute alpha diversity 
+<details>
+<summary> Click me </summary>
 
 ```{r}
 library(vegan)
@@ -188,8 +197,11 @@ longimono=cbind(longimono[index,],alpha)
 longink=cbind(longink[index,],alpha)
 longinrbc=cbind(longinrbc[index,],alpha)
 ```
+</details>
 
 ### incorporate the deliver mode
+<details>
+<summary> Click me </summary>
 
 ```{r}
 exmblid=rownames(longidata)
@@ -234,7 +246,7 @@ for (i in 1:73) {
 ```
 
 
-
+</details>
 
 
 
@@ -242,6 +254,8 @@ for (i in 1:73) {
 ## Regression analysis
 
 ### Microbes associated with Bcell: FDR=0.1
+<details>
+<summary> Click me </summary>
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -280,11 +294,13 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 rrbcellfdr
 ```
 
-
+</details>
 
 
 
 ###  Microbes associated with CD4: FDR=0.1
+<details>
+<summary> Click me </summary>
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -324,9 +340,11 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 rrbcellfdr
 ```
 
-
+</details>
 
 ###  Microbes associated with CD8: FDR=0.1
+<details>
+<summary> Click me </summary>
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -365,8 +383,11 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 rrbcellfdr
 ```
 
+</details>
 
 ###  Microbes associated with mono: FDR=0.1
+<details>
+<summary> Click me </summary>
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -404,8 +425,11 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```{r,echo=FALSE}
 rrbcellfdr
 ```
+<\details>
 
 ###  Microbes associated with NK: FDR=0.1
+<details>
+<summary> Click me </summary>
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -443,10 +467,12 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 rrbcellfdr
 ```
 
-
+</details>
 
 
 ###  Microbes associated with NRBC: FDR=0.1
+<details>
+<summary> Click me </summary>
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -485,8 +511,10 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 rrbcellfdr
 ```
 
-
+</details>
 ###  Microbes associated with Gran: FDR=0.1
+<details>
+<summary> Click me </summary>
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -526,3 +554,4 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 rrbcellfdr
 ```
 
+<details>

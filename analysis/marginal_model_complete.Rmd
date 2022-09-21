@@ -14,10 +14,13 @@ output:
 
 ### input data
 
+<details>
+<summary> Click me </summary>
 ```{r}
 confounder=read.csv("//dartfs-hpc.dartmouth.edu/rc/lab/M/MRKepistor7/collab/JieZhou/SourceFiles/req19jul2019_ym_06jul2020.csv")
 linkage=read.csv("//dartfs-hpc.dartmouth.edu/rc/lab/M/MRKepistor7/collab/JieZhou/SourceFiles/MBLID_linkage.csv")
 ```
+
 
 
 ```{r,echo=FALSE}
@@ -67,9 +70,13 @@ for (i in 1:length(subject12m)) {
 data12m=cbind(subject12m,12,data12m)
 ```
 
+</details>
 
 
 ### combine 6-week and 12-month data
+<details>
+<summary> Click me </summary>
+
 
 ```{r}
 colnames(data6w)[1:2]=c("subject","time")
@@ -108,9 +115,12 @@ index=order(data6w12m$subject,data6w12m$time)
 data6w12m=data6w12m[index,]
 save(data6w12m,file = "data6w12m.Rdata")
 ```
-
+</details>
 
 ### align the microbiome data with immunce cell data
+<details>
+<summary> Click it </summary>
+
 
 ```{r}
 overlap=intersect(data6w_swell$subject,data12m_swell$subject)
@@ -166,11 +176,12 @@ longink=rbind(df.nkadj6w,df.nkadj_o)
 longinrbc=rbind(df.nrbcadj6w,df.nrbcadj_o)
 longigran=rbind(df.granadj6w,df.granadj_o)
 ```
-
+</details>
 
 
 ### compute alpha diversity 
-
+<details>
+<summary> Click me </summary>
 
 ```{r}
 library(vegan)
@@ -189,8 +200,12 @@ longink=cbind(longink[index,],alpha)
 longinrbc=cbind(longinrbc[index,],alpha)
 ```
 
+</details>
 
 ### incorporate the deliver mode
+
+<details>
+<summary> Click me </summary>
 
 ```{r}
 exmblid=rownames(longidata)
@@ -232,6 +247,7 @@ for (i in 1:73) {
 
 ```
 
+<\details>
 
 ```{r}
 library(gee)
@@ -243,6 +259,8 @@ library(gee)
 ## Regression analysis
 
 ###  Microbes associated with Bcell: FDR=0.1
+<details>
+<summary> Click me </summary>
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -276,9 +294,11 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.3),]
 ```
 
+
 ```{r,echo=FALSE}
 rrbcellfdr
 ```
+</details>
 
 
 
@@ -288,6 +308,8 @@ rrbcellfdr
 
 
 ###  Microbes associated with CD4: FDR=0.1
+<details>
+<summary> Click me </summary>
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
@@ -315,11 +337,16 @@ for (k in 1:m) {
 
 }
 ```
-
 For CD4, GEE method does not yield any significant results.
+</details>
+
+
 
 
 ###  Microbes associated with CD8: FDR=0.1
+<details>
+<summary> Click me </summary>
+
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
@@ -349,10 +376,13 @@ for (k in 1:m) {
 
 ```
 
-
 For CD8, GEE method does not yield any significant results. 
+<\details>
+
 
 ###  Microbes associated with Mono: FDR=0.1
+<details> 
+<summary> Click me </summary>
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -390,8 +420,11 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.4),]
 rrbcellfdr
 ```
 
+</details>
 
 ###  Microbes associated with NK: FDR=0.1
+<details>
+<summary> Click me </summary>
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
@@ -428,7 +461,11 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.3),]
 rrbcellfdr
 ```
 
+</details>
+
 ###  Microbes associated with NRBC: FDR=0.1
+<details>
+<summary> Click me </summary>
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
@@ -465,8 +502,13 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.3),]
 ```{r,echo=FALSE}
 rrbcellfdr
 ```
+</details>
+
 
 ###  Microbes associated with Gran: FDR=0.1
+<details>
+<summary> Click me </summary>
+
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
@@ -502,5 +544,5 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.4),]
 rrbcellfdr
 ```
 
-
+<\details>
 
