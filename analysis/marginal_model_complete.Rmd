@@ -244,7 +244,7 @@ library(gee)
 
 ### Bcell
 
-```{r}
+```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -256,7 +256,6 @@ for (k in 1:m) {
   y2=apply(longidata[,-c(1,2,k+2)],1,sum)
   fm=try({gee(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longibcell,family="binomial",corstr="exchangeable")},silent = T)
   if (inherits(fm,"try-error")){
-    print(k)
     next()
   }else{
     fm=gee(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longibcell,family="binomial",corstr="exchangeable")   
@@ -275,6 +274,9 @@ fdr=p.adjust(rrbcell[,2],method = "BH")
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.3),]
+```
+
+```{r,echo=FALSE}
 rrbcellfdr
 ```
 
@@ -284,8 +286,9 @@ rrbcellfdr
 
 
 
+
 ### cd4t
-```{r}
+```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -311,13 +314,13 @@ for (k in 1:m) {
      }
 
 }
-rrbcell
 ```
+
 For CD4, GEE method does not yield any significant results.
 
 
-##cd8t
-```{r}
+### cd8t
+```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -346,11 +349,12 @@ for (k in 1:m) {
 
 ```
 
+
 For CD8, GEE method does not yield any significant results. 
 
 ### mono
 
-```{r}
+```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -383,9 +387,13 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.4),]
 rrbcellfdr
 ```
 
+```{r,echo=FALSE}
+rrbcellfdr
+```
+
 
 ### nk
-```{r}
+```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -418,11 +426,13 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.3),]
 rrbcellfdr
 ```
 
-
+```{r,echo=FALSE}
+rrbcellfdr
+```
 
 ### nrbc
 
-```{r}
+```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -454,10 +464,12 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.3),]
 rrbcellfdr
 ```
-
+```{r,echo=FALSE}
+rrbcellfdr
+```
 
 ### gran
-```{r}
+```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
 n=nrow(longidata)
@@ -489,4 +501,9 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.4),]
 rrbcellfdr
 ```
+```{r,echo=FALSE}
+rrbcellfdr
+```
+
+
 
