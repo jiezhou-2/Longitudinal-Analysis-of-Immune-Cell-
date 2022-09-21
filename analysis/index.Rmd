@@ -1,5 +1,5 @@
 ---
-title: "Home"
+title: "Immunce Cell Analysis"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
@@ -8,4 +8,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+[Analysis Based on 6-Week Data](6week_analysis.html)
+[Analysis Based on 12-Month Data](Analysis Based on 6-Week Data.html)
+[Analysis Based on Longitudinal Data](marginal_model_complete)
