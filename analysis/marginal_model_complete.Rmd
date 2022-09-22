@@ -101,6 +101,11 @@ for (k in 1:m) {
 
 }
 ```
+
+
+```{r,echo=FALSE}
+rrbcell
+```
 For CD4, GEE method does not yield any significant results.
 </details>
 
@@ -138,6 +143,10 @@ for (k in 1:m) {
 
 }
 
+```
+
+```{r,echo=FALSE}
+rrbcell
 ```
 
 For CD8, GEE method does not yield any significant results. 
