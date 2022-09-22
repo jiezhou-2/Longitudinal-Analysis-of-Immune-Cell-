@@ -1,5 +1,5 @@
 ---
-title: "Analysis Based on Longitudinal  Data"
+title: "Analysis with Independent Marginal Model"
 author: "Jie Zhou"
 date: "9/21/2022"
 output:  
@@ -10,7 +10,6 @@ output:
 
 
 ## clean the data
-
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 library(gee)
@@ -36,11 +35,11 @@ rrbcell=data.frame()
 for (k in 1:m) {
   y1=longidata[,k+2]
   y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longibcell,family="binomial",corstr="exchangeable")},silent = T)
+  fm=try({gee(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longibcell,family="binomial",corstr="independence")},silent = T)
   if (inherits(fm,"try-error")){
     next()
   }else{
-    fm=gee(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longibcell,family="binomial",corstr="exchangeable")   
+    fm=gee(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longibcell,family="binomial",corstr="independence")   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -84,12 +83,12 @@ rrbcell=data.frame()
 for (k in 1:m) {
   y1=longidata[,k+2]
   y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd4t,family="binomial",corstr="exchangeable")},silent = T)
+  fm=try({gee(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd4t,family="binomial",corstr="independence")},silent = T)
   if (inherits(fm,"try-error")){
     print(k)
     next()
   }else{
-    fm=gee(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd4t,family="binomial",corstr="exchangeable")   
+    fm=gee(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd4t,family="binomial",corstr="independence")   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -121,12 +120,12 @@ rrbcell=data.frame()
 for (k in 1:m) {
   y1=longidata[,k+2]
   y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd8t,family="binomial",corstr="exchangeable")},silent = T)
+  fm=try({gee(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd8t,family="binomial",corstr="independence")},silent = T)
   if (inherits(fm,"try-error")){
     print(k)
     next()
   }else{
-    fm=gee(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd8t,family="binomial",corstr="exchangeable")   
+    fm=gee(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd8t,family="binomial",corstr="independence")   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -158,11 +157,11 @@ rrbcell=data.frame()
 for (k in 1:m) {
   y1=longidata[,k+2]
   y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longimono,family="binomial",corstr="exchangeable")},silent = T)
+  fm=try({gee(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longimono,family="binomial",corstr="independence")},silent = T)
   if (inherits(fm,"try-error")){
     next()
   }else{
-    fm=gee(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longimono,family="binomial",corstr="exchangeable")   
+    fm=gee(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longimono,family="binomial",corstr="independence")   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -199,11 +198,11 @@ rrbcell=data.frame()
 for (k in 1:m) {
   y1=longidata[,k+2]
   y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longink,family="binomial",corstr="exchangeable")},silent = T)
+  fm=try({gee(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longink,family="binomial",corstr="independence")},silent = T)
   if (inherits(fm,"try-error")){
     next()
   }else{
-    fm=gee(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longink,family="binomial",corstr="exchangeable")   
+    fm=gee(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longink,family="binomial",corstr="independence")   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -241,11 +240,11 @@ rrbcell=data.frame()
 for (k in 1:m) {
   y1=longidata[,k+2]
   y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longinrbc,family="binomial",corstr="exchangeable")},silent = T)
+  fm=try({gee(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longinrbc,family="binomial",corstr="independence")},silent = T)
   if (inherits(fm,"try-error")){
     next()
   }else{
-    fm=gee(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longinrbc,family="binomial",corstr="exchangeable")   
+    fm=gee(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longinrbc,family="binomial",corstr="independence")   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -283,11 +282,11 @@ rrbcell=data.frame()
 for (k in 1:m) {
   y1=longidata[,k+2]
   y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longigran,family="binomial",corstr="exchangeable")},silent = T)
+  fm=try({gee(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longigran,family="binomial",corstr="independence")},silent = T)
   if (inherits(fm,"try-error")){
     next()
   }else{
-    fm=gee(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longigran,family="binomial",corstr="exchangeable")   
+    fm=gee(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longigran,family="binomial",corstr="independence")   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
