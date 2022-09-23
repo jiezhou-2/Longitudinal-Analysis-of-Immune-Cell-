@@ -12,7 +12,7 @@
 <meta name="author" content="Jie Zhou" />
 
 
-<title>Analysis Based on Longitudinal Data</title>
+<title>Marginal Model with 12-Month Data</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -277,7 +277,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Analysis Based on Longitudinal Data</h1>
+<h1 class="title toc-ignore">Marginal Model with 12-Month Data</h1>
 <h4 class="author">Jie Zhou</h4>
 <h4 class="date">9/21/2022</h4>
 
@@ -328,7 +328,7 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -438,307 +438,9 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/marginal_model_complete.Rmd</code>) and HTML (<code>docs/marginal_model_complete.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/blob/716cb2a13ba6494ceb00dc1e58ef43107e1247c1/analysis/marginal_model_complete.Rmd" target="_blank">716cb2a</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-22
-</td>
-<td>
-simplication of data reading
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/716cb2a13ba6494ceb00dc1e58ef43107e1247c1/docs/marginal_model_complete.html" target="_blank">716cb2a</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-22
-</td>
-<td>
-simplication of data reading
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/blob/9600acc30e448e9ba71ee9720ce01627b5e6c996/analysis/marginal_model_complete.Rmd" target="_blank">9600acc</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-22
-</td>
-<td>
-unify the data reading
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/9600acc30e448e9ba71ee9720ce01627b5e6c996/docs/marginal_model_complete.html" target="_blank">9600acc</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-22
-</td>
-<td>
-unify the data reading
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/blob/8caf0a04316786d19c199a9eecaaf62c9277dfd0/analysis/marginal_model_complete.Rmd" target="_blank">8caf0a0</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-21
-</td>
-<td>
-title changed
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/8caf0a04316786d19c199a9eecaaf62c9277dfd0/docs/marginal_model_complete.html" target="_blank">8caf0a0</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-21
-</td>
-<td>
-title changed
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/blob/1c9b2045edc7c1397ff64215d01f73f59039f7a2/analysis/marginal_model_complete.Rmd" target="_blank">1c9b204</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-21
-</td>
-<td>
-title changed
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/1c9b2045edc7c1397ff64215d01f73f59039f7a2/docs/marginal_model_complete.html" target="_blank">1c9b204</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-21
-</td>
-<td>
-title changed
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/blob/e75d82e79742f2519d0ddac306819e2bf5409148/analysis/marginal_model_complete.Rmd" target="_blank">e75d82e</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-20
-</td>
-<td>
-add the remote repo
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/e75d82e79742f2519d0ddac306819e2bf5409148/docs/marginal_model_complete.html" target="_blank">e75d82e</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-20
-</td>
-<td>
-add the remote repo
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/blob/546725fabf878fbf9536c58b8f3608e772d70b4e/analysis/marginal_model_complete.Rmd" target="_blank">546725f</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-20
-</td>
-<td>
-add the remote repo
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/546725fabf878fbf9536c58b8f3608e772d70b4e/docs/marginal_model_complete.html" target="_blank">546725f</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-20
-</td>
-<td>
-add the remote repo
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/blob/5bf2b3b9d81e5b8363391867d535b6eae7985742/analysis/marginal_model_complete.Rmd" target="_blank">5bf2b3b</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-20
-</td>
-<td>
-add the remote repo
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/5bf2b3b9d81e5b8363391867d535b6eae7985742/docs/marginal_model_complete.html" target="_blank">5bf2b3b</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-20
-</td>
-<td>
-add the remote repo
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/blob/098d05845281e5b861e925cdbf3f6dacefff7497/analysis/marginal_model_complete.Rmd" target="_blank">098d058</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-20
-</td>
-<td>
-immune cell
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/098d05845281e5b861e925cdbf3f6dacefff7497/docs/marginal_model_complete.html" target="_blank">098d058</a>
-</td>
-<td>
-Jie Zhou
-</td>
-<td>
-2022-09-20
-</td>
-<td>
-immune cell
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
@@ -746,7 +448,8 @@ immune cell
 <div id="clean-the-data" class="section level2">
 <h2>clean the data</h2>
 <pre class="r"><code>library(gee)
-source(&quot;./code/datacleaning.r&quot;)</code></pre>
+source(&quot;./code/datacleaning.r&quot;)
+index=which(longidata$time==12)</code></pre>
 </div>
 <div id="regression-analysis" class="section level2">
 <h2>Regression analysis</h2>
@@ -763,13 +466,13 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[,k+2]
-  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longibcell,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)},silent = T)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+  fm=try({gee(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longibcell[index,],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)},silent = T)
   if (inherits(fm,&quot;try-error&quot;)){
     next()
   }else{
-    fm=gee(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longibcell,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)   
+    fm=gee(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longibcell[index,],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -785,10 +488,12 @@ fdr=p.adjust(rrbcell[,2],method = &quot;BH&quot;)
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]&lt;0.3),]</code></pre>
-<pre><code>         microbe      coef      pvalue      lower     upper       fdr
-8   Enterobacter 0.1595854 0.002074279 0.05801078 0.2611599 0.0394113
-1   Anaerostipes 0.1358712 0.014665627 0.02675257 0.2449898 0.1230639
-18 Streptococcus 0.1153356 0.019431135 0.01861212 0.2120592 0.1230639</code></pre>
+<pre><code>                microbe       coef       pvalue       lower       upper
+2          Anaerostipes  0.1297091 0.0007157138  0.05457072  0.20484753
+12 Escherichia/Shigella -0.1928308 0.0206614514 -0.35615391 -0.02950768
+          fdr
+2  0.01502999
+12 0.21694524</code></pre>
 </details>
 </div>
 <div id="microbes-associated-with-cd4" class="section level3">
@@ -804,14 +509,14 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[,k+2]
-  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd4t,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)},silent = T)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+  fm=try({gee(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd4t[index,],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)},silent = T)
   if (inherits(fm,&quot;try-error&quot;)){
     print(k)
     next()
   }else{
-    fm=gee(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd4t,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)   
+    fm=gee(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd4t[index],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -822,7 +527,6 @@ for (k in 1:m) {
      }
 
 }</code></pre>
-<pre><code>data frame with 0 columns and 0 rows</code></pre>
 For CD4, GEE method does not yield any significant results.
 </details>
 </div>
@@ -839,14 +543,14 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[,k+2]
-  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd8t,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)},silent = T)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+  fm=try({gee(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd8t[index,],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)},silent = T)
   if (inherits(fm,&quot;try-error&quot;)){
     print(k)
     next()
   }else{
-    fm=gee(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd8t,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)   
+    fm=gee(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longicd8t[index,],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -857,7 +561,6 @@ for (k in 1:m) {
      }
 
 }</code></pre>
-<pre><code>data frame with 0 columns and 0 rows</code></pre>
 <p>For CD8, GEE method does not yield any significant results. &lt;&gt;</p>
 </div>
 <div id="microbes-associated-with-mono" class="section level3">
@@ -873,13 +576,13 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[,k+2]
-  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longimono,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)},silent = T)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+  fm=try({gee(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longimono[index],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)},silent = T)
   if (inherits(fm,&quot;try-error&quot;)){
     next()
   }else{
-    fm=gee(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longimono,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)   
+    fm=gee(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longimono[index,],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -889,14 +592,8 @@ for (k in 1:m) {
     rrbcell=rbind(rrbcell,rr)
      }
 
-}
-colnames(rrbcell)=c(&quot;coef&quot;,&quot;pvalue&quot;,&quot;lower&quot;,&quot;upper&quot;)
-fdr=p.adjust(rrbcell[,2],method = &quot;BH&quot;)
-rrbcell=data.frame(microbe,rrbcell,fdr)
-rrbcell=rrbcell[order(rrbcell[,3]),]
-rrbcellfdr=rrbcell[which(rrbcell[,6]&lt;0.4),]</code></pre>
-<pre><code>          microbe     coef     pvalue      lower       upper       fdr
-3 Bifidobacterium -0.13236 0.01525392 -0.2392826 -0.02543741 0.2898245</code></pre>
+}</code></pre>
+<pre><code>data frame with 0 columns and 0 rows</code></pre>
 </details>
 </div>
 <div id="microbes-associated-with-nk" class="section level3">
@@ -912,13 +609,13 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[,k+2]
-  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longink,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)},silent = T)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+  fm=try({gee(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longink[index,],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)},silent = T)
   if (inherits(fm,&quot;try-error&quot;)){
     next()
   }else{
-    fm=gee(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longink,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)   
+    fm=gee(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longink[index,],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -934,12 +631,9 @@ fdr=p.adjust(rrbcell[,2],method = &quot;BH&quot;)
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]&lt;0.3),]</code></pre>
-<pre><code>                 microbe       coef       pvalue       lower       upper
-4        Bifidobacterium -0.1434283 1.650503e-05 -0.20868993 -0.07816674
-12 F__Enterobacteriaceae  0.2416072 7.318915e-03  0.06503946  0.41817499
-            fdr
-4  0.0003301007
-12 0.0731891467</code></pre>
+<pre><code>         microbe       coef      pvalue      lower       upper       fdr
+21 Streptococcus -0.1438155 0.006659592 -0.2476992 -0.03993182 0.1465110
+20 Ruminococcus2 -0.1306459 0.019678153 -0.2404310 -0.02086078 0.2164597</code></pre>
 </details>
 </div>
 <div id="microbes-associated-with-nrbc" class="section level3">
@@ -955,13 +649,13 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[,k+2]
-  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longinrbc,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)},silent = T)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+  fm=try({gee(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longinrbc[index,],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)},silent = T)
   if (inherits(fm,&quot;try-error&quot;)){
     next()
   }else{
-    fm=gee(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longinrbc,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)   
+    fm=gee(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longinrbc[index,],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -977,10 +671,18 @@ fdr=round(p.adjust(rrbcell[,2],method = &quot;BH&quot;),3)
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]&lt;0.3),]</code></pre>
-<pre><code>              microbe       coef     pvalue      lower      upper   fdr
-3             Blautia 0.04587232 0.01207582 0.01005058 0.08169407 0.105
-13     Flavonifractor 0.07556633 0.01721470 0.01338983 0.13774283 0.105
-11 F__Lachnospiraceae 0.08422010 0.01966937 0.01345285 0.15498735 0.105</code></pre>
+<pre><code>                     microbe        coef     pvalue       lower         upper
+4                    Blautia  0.06434720 0.00100589  0.02599957  0.1026948212
+8  Clostridium_sensu_stricto -0.10239862 0.01786226 -0.18713773 -0.0176595073
+10      Escherichia/Shigella -0.04778838 0.04803196 -0.09516377 -0.0004129773
+1               Anaerostipes  0.05023228 0.06564783 -0.00325216  0.1037167135
+6          Clostridium_XVIII -0.02894647 0.07578439 -0.06089751  0.0030045755
+     fdr
+4  0.018
+8  0.161
+10 0.273
+1  0.273
+6  0.273</code></pre>
 </details>
 </div>
 <div id="microbes-associated-with-gran" class="section level3">
@@ -996,13 +698,13 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[,k+2]
-  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
-  fm=try({gee(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longigran,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)},silent = T)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+  fm=try({gee(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longigran[index,],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)},silent = T)
   if (inherits(fm,&quot;try-error&quot;)){
     next()
   }else{
-    fm=gee(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longigran,family=&quot;binomial&quot;,corstr=&quot;exchangeable&quot;)   
+    fm=gee(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,id=subject6w, data=longigran[index,],family=&quot;binomial&quot;,corstr=&quot;independence&quot;)   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=2*(1-pnorm(abs(a$coefficients[2,5])))
@@ -1018,10 +720,8 @@ fdr=round(p.adjust(rrbcell[,2],method = &quot;BH&quot;),3)
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]&lt;0.4),]</code></pre>
-<pre><code>           microbe   coef pvalue  lower  upper   fdr
-4  Bifidobacterium  0.029  0.002  0.010  0.048 0.040
-2     Anaerostipes -0.050  0.020 -0.093 -0.008 0.200
-15  Flavonifractor -0.065  0.037 -0.127 -0.004 0.247</code></pre>
+<pre><code>       microbe   coef pvalue  lower  upper   fdr
+2 Anaerostipes -0.044  0.014 -0.079 -0.009 0.322</code></pre>
 <p>&lt;&gt;</p>
 <br>
 <p>
@@ -1060,9 +760,9 @@ loaded via a namespace (and not attached):
 [25] fastmap_1.1.0    cluster_2.1.2    stringr_1.4.0    knitr_1.39      
 [29] fs_1.5.2         vctrs_0.4.1      sass_0.4.2       grid_4.1.2      
 [33] rprojroot_2.0.3  glue_1.6.2       R6_2.5.1         fansi_1.0.3     
-[37] rmarkdown_2.14   magrittr_2.0.3   whisker_0.4      splines_4.1.2   
-[41] MASS_7.3-54      promises_1.2.0.1 ellipsis_0.3.2   htmltools_0.5.2 
-[45] httpuv_1.6.5     utf8_1.2.2       stringi_1.7.6    cachem_1.0.6    </code></pre>
+[37] rmarkdown_2.14   magrittr_2.0.3   splines_4.1.2    MASS_7.3-54     
+[41] promises_1.2.0.1 ellipsis_0.3.2   htmltools_0.5.2  httpuv_1.6.5    
+[45] utf8_1.2.2       stringi_1.7.6    cachem_1.0.6    </code></pre>
 </div>
 </div>
 </div>

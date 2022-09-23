@@ -21,8 +21,7 @@ source("./code/datacleaning.r")
 
 
 ## Regression analysis
-
-###  Microbes associated with Bcell: FDR=0.1
+###  Microbes associated with Bcell
 <details>
 <summary> Click me </summary>
 
@@ -71,7 +70,7 @@ rrbcellfdr
 
 
 
-###  Microbes associated with CD4: FDR=0.1
+###  Microbes associated with CD4
 <details>
 <summary> Click me </summary>
 ```{r,message=FALSE,warning=FALSE,results='hide'}
@@ -112,7 +111,7 @@ For CD4, GEE method does not yield any significant results.
 
 
 
-###  Microbes associated with CD8: FDR=0.1
+###  Microbes associated with CD8
 <details>
 <summary> Click me </summary>
 
@@ -153,7 +152,7 @@ For CD8, GEE method does not yield any significant results.
 <\details>
 
 
-###  Microbes associated with Mono: FDR=0.1
+###  Microbes associated with Mono
 <details> 
 <summary> Click me </summary>
 
@@ -195,7 +194,7 @@ rrbcellfdr
 
 </details>
 
-###  Microbes associated with NK: FDR=0.1
+###  Microbes associated with NK
 <details>
 <summary> Click me </summary>
 ```{r,message=FALSE,warning=FALSE,results='hide'}
@@ -236,7 +235,7 @@ rrbcellfdr
 
 </details>
 
-###  Microbes associated with NRBC: FDR=0.1
+###  Microbes associated with NRBC
 <details>
 <summary> Click me </summary>
 
@@ -278,7 +277,7 @@ rrbcellfdr
 </details>
 
 
-###  Microbes associated with Gran: FDR=0.1
+###  Microbes associated with Gran
 <details>
 <summary> Click me </summary>
 

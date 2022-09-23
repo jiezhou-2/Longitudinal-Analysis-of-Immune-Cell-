@@ -12,8 +12,8 @@ editor_options:
 
 ## Model
 
-[Analysis Based on 6-Week Data](6week_analysis.html)
+[Analysis Based on 6-Week Data](6week_analysis_GEE.html)
 
-[Analysis Based on 12-Month Data](12month_analysis.html)
+[Analysis Based on 12-Month Data](12month_analysis_GEE.html)
 
 [Analysis Based on Longitudinal Data](marginal_model_complete.html)

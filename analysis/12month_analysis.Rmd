@@ -16,11 +16,12 @@ output:
 
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 source("./code/datacleaning.r")
+index=which(longidata$time==12)
 ```
 
 ## Regression analysis
 
-### Microbes associated with Bcell: FDR=0.1
+###  Microbes associated with Bcell: FDR=0.1
 <details>
 <summary> Click me </summary>
 
@@ -32,14 +33,14 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[74:117,k+2]
-  y2=apply(longidata[74:117,-c(1,2,k+2)],1,sum)
-   if (length(which(y1>0))<=5) {next}
-  fm=try({glm(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver, data=longibcell[74:117,],family="binomial")},silent = T)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+  #if (length(which(y1>0))<=5){next}
+  fm=try({glm(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver, data=longibcell[index,],family="binomial")},silent = T)
   if (inherits(fm,"try-error")){
     next()
   }else{
-    fm=glm(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,data=longibcell[74:117,],family="binomial")   
+    fm=glm(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,data=longibcell[index,],family="binomial")   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=a$coefficients[2,4]
@@ -61,7 +62,7 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 rrbcellfdr
 ```
 
-</details>
+<\details>
 
 
 
@@ -77,14 +78,14 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[74:117,k+2]
-  y2=apply(longidata[74:117,-c(1,2,k+2)],1,sum)
-   if (length(which(y1>0))<=5) {next}
-  fm=try({glm(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver, data=longicd4[74:117,],family="binomial")},silent = T)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+  #if (length(which(y1>0))<=5){next}
+  fm=try({glm(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver, data=longicd4[index,],family="binomial")},silent = T)
   if (inherits(fm,"try-error")){
     next()
   }else{
-    fm=glm(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longicd4[74:117,],family="binomial")   
+    fm=glm(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longicd4[index,],family="binomial")   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=a$coefficients[2,4]
@@ -102,12 +103,10 @@ rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```
 
-
 ```{r,echo=FALSE}
 rrbcellfdr
 ```
-
-</details>
+<\details>
 
 ###  Microbes associated with CD8: FDR=0.1
 <details>
@@ -121,14 +120,14 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[74:117,k+2]
-  y2=apply(longidata[74:117,-c(1,2,k+2)],1,sum)
-   if (length(which(y1>0))<=5) {next}
-  fm=try({glm(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longicd8[74:117,],family="binomial")},silent = T)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+  #if (length(which(y1>0))<=5){next}
+  fm=try({glm(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longicd8[index,],family="binomial")},silent = T)
   if (inherits(fm,"try-error")){
     next()
   }else{
-    fm=glm(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longicd8[74:117,],family="binomial")   
+    fm=glm(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longicd8[index,],family="binomial")   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=a$coefficients[2,4]
@@ -149,10 +148,9 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```{r,echo=FALSE}
 rrbcellfdr
 ```
+<\details>
 
-</details>
-
-###  Microbes associated with mono: FDR=0.1
+###  Microbes associated with Mono: FDR=0.1
 <details>
 <summary> Click me </summary>
 
@@ -164,14 +162,14 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[74:117,k+2]
-  y2=apply(longidata[74:117,-c(1,2,k+2)],1,sum)
-   if (length(which(y1>0))<=5) {next}
-  fm=try({glm(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longimono[74:117,],family="binomial")},silent = T)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+#  if (length(which(y1>0))<=5) {next}
+  fm=try({glm(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longimono[index,],family="binomial")},silent = T)
   if (inherits(fm,"try-error")){
     next()
   }else{
-    fm=glm(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longimono[74:117,],family="binomial")
+    fm=glm(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longimono[index,],family="binomial")
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=a$coefficients[2,4]
@@ -181,6 +179,49 @@ for (k in 1:m) {
     rrbcell=rbind(rrbcell,rr)
      }
 
+}
+colnames(rrbcell)=c("coef","pvalue","lower","upper")
+fdr=p.adjust(rrbcell[,2],method = "BH")
+rrbcell=data.frame(microbe,rrbcell,fdr)
+rrbcell=rrbcell[order(rrbcell[,3]),]
+rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
+```
+
+```{r,echo=FALSE}
+rrbcellfdr
+```
+
+</details>
+
+###  Microbes associated with NK: FDR=0.1
+
+<details>
+<summary> Click me </summary>
+
+```{r,message=FALSE,warning=FALSE,results='hide'}
+options(warn = 2)
+m=ncol(longidata)-2
+n=nrow(longidata)
+name=colnames(longidata)[-c(1,2)]
+microbe=c()                            
+rrbcell=data.frame()
+for (k in 1:m) {
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+   #if (length(which(y1>0))<=5) {next}
+  fm=try({glm(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longink[index,],family="binomial")},silent = T)
+  if (inherits(fm,"try-error")){
+    next()
+  }else{
+    fm=glm(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver,  data=longink[index,],family="binomial")  
+   a=summary(fm)
+   r1=a$coefficients[2,1]
+   r2=a$coefficients[2,4]
+   r3= c(r1-1.96*a$coefficients[2,2],r1+ 1.96*a$coefficients[2,2])
+   rr=c(r1,r2,r3)
+   microbe=c(microbe,name[k])
+    rrbcell=rbind(rrbcell,rr)
+     }
 }
 colnames(rrbcell)=c("coef","pvalue","lower","upper")
 fdr=p.adjust(rrbcell[,2],method = "BH")
@@ -194,53 +235,12 @@ rrbcellfdr
 ```
 <\details>
 
-###  Microbes associated with NK: FDR=0.1
-<details>
-<summary> Click me </summary>
-
-```{r,message=FALSE,warning=FALSE,results='hide'}
-options(warn = 2)
-m=ncol(longidata)-2
-n=nrow(longidata)
-name=colnames(longidata)[-c(1,2)]
-microbe=c()                            
-rrbcell=data.frame()
-for (k in 1:m) {
-  y1=longidata[74:117,k+2]
-  y2=apply(longidata[74:117,-c(1,2,k+2)],1,sum)
-   if (length(which(y1>0))<=5) {next}
-  fm=try({glm(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longink[74:117,],family="binomial")},silent = T)
-  if (inherits(fm,"try-error")){
-    next()
-  }else{
-    fm=glm(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver,  data=longink[74:117,],family="binomial")  
-   a=summary(fm)
-   r1=a$coefficients[2,1]
-   r2=a$coefficients[2,4]
-   r3= c(r1-1.96*a$coefficients[2,2],r1+ 1.96*a$coefficients[2,2])
-   rr=c(r1,r2,r3)
-   microbe=c(microbe,name[k])
-    rrbcell=rbind(rrbcell,rr)
-     }
-}
-colnames(rrbcell)=c("coef","pvalue","lower","upper")
-fdr=p.adjust(rrbcell[,2],method = "BH")
-rrbcell=data.frame(microbe,rrbcell,fdr)
-rrbcell=rrbcell[order(rrbcell[,3]),]
-rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
-```
-
-```{r,echo=FALSE}
-rrbcellfdr
-```
-
-</details>
-
 
 ###  Microbes associated with NRBC: FDR=0.1
 <details>
 <summary> Click me </summary>
 
+
 ```{r,message=FALSE,warning=FALSE,results='hide'}
 options(warn = 2)
 m=ncol(longidata)-2
@@ -249,14 +249,14 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[74:117,k+2]
-  y2=apply(longidata[74:117,-c(1,2,k+2)],1,sum)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
    if (length(which(y1>0))<=5) {next}
-  fm=try({glm(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longinrbc[74:117,],family="binomial")},silent = T)
+  fm=try({glm(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longinrbc[index,],family="binomial")},silent = T)
   if (inherits(fm,"try-error")){
     next()
   }else{
-    fm=glm(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longinrbc[74:117,],family="binomial")   
+    fm=glm(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longinrbc[index,],family="binomial")   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=a$coefficients[2,4]
@@ -277,8 +277,8 @@ rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
 ```{r,echo=FALSE}
 rrbcellfdr
 ```
+<\details>
 
-</details>
 ###  Microbes associated with Gran: FDR=0.1
 <details>
 <summary> Click me </summary>
@@ -291,15 +291,14 @@ name=colnames(longidata)[-c(1,2)]
 microbe=c()                            
 rrbcell=data.frame()
 for (k in 1:m) {
-  y1=longidata[74:117,k+2]
-  y2=apply(longidata[74:117,-c(1,2,k+2)],1,sum)
-   if (length(which(y1>0))<=5) {next}
-  fm=try({glm(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longigran[74:117,],family="binomial")},silent = T)
+  y1=longidata[index,k+2]
+  y2=apply(longidata[index,-c(1,2,k+2)],1,sum)
+   #if (length(which(y1>0))<=5) {next}
+  fm=try({glm(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longigran[index,],family="binomial")},silent = T)
   if (inherits(fm,"try-error")){
-  
     next()
   }else{
-    fm=glm(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longigran[74:117,],family="binomial")   
+    fm=glm(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longigran[index,],family="binomial")   
    a=summary(fm)
    r1=a$coefficients[2,1]
    r2=a$coefficients[2,4]
@@ -315,10 +314,11 @@ fdr=round(p.adjust(rrbcell[,2],method = "BH"),3)
 rrbcell=data.frame(microbe,rrbcell,fdr)
 rrbcell=rrbcell[order(rrbcell[,3]),]
 rrbcellfdr=rrbcell[which(rrbcell[,6]<0.1),]
+
 ```
 
 ```{r,echo=FALSE}
 rrbcellfdr
 ```
 
-<details>
+<\details>

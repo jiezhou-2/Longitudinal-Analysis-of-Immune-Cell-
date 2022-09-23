@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jie Zhou" />
+
+
+<title>Logistic Regression Based on Pooled Data</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Immunue_Cell_Study</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Logistic Regression Based on Pooled Data</h1>
+<h4 class="author">Jie Zhou</h4>
+<h4 class="date">9/21/2022</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-09-22
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Immunue_Cell_Study/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220920code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20220920)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20220920code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20220920)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjiezhou2LongitudinalAnalysisofImmuneCelltree716cb2a13ba6494ceb00dc1e58ef43107e1247c1targetblank716cb2aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/tree/716cb2a13ba6494ceb00dc1e58ef43107e1247c1" target="_blank">716cb2a</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjiezhou2LongitudinalAnalysisofImmuneCelltree716cb2a13ba6494ceb00dc1e58ef43107e1247c1targetblank716cb2aa" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/tree/716cb2a13ba6494ceb00dc1e58ef43107e1247c1" target="_blank">716cb2a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.Rhistory
+
+Untracked files:
+    Untracked:  analysis/glm-without-modeling-correlation.Rmd
+
+Unstaged changes:
+    Modified:   analysis/glm without modeling correlation.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/glm without modeling correlation.Rmd</code>) and HTML (<code>docs/glm without modeling correlation.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jiezhou-2/Longitudinal-Analysis-of-Immune-Cell-/blob/9600acc30e448e9ba71ee9720ce01627b5e6c996/analysis/glm without modeling correlation.Rmd" target="_blank">9600acc</a>
+</td>
+<td>
+Jie Zhou
+</td>
+<td>
+2022-09-22
+</td>
+<td>
+unify the data reading
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="clean-the-data" class="section level2">
+<h2>clean the data</h2>
+<pre class="r"><code>source(&quot;./code/datacleaning.r&quot;)</code></pre>
+</details>
+</div>
+<div id="regression-analysis" class="section level2">
+<h2>Regression analysis</h2>
+<div id="microbes-associated-with-bcell-fdr0.1" class="section level3">
+<h3>Microbes associated with Bcell: FDR=0.1</h3>
+<details>
+<summary>
+Click me
+</summary>
+<pre class="r"><code>options(warn = 2)
+m=ncol(longidata)-2
+n=nrow(longidata)
+name=colnames(longidata)[-c(1,2)]
+microbe=c()                            
+rrbcell=data.frame()
+for (k in 1:m) {
+  y1=longidata[,k+2]
+  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
+  if (length(which(y1&gt;0))&lt;=5){next}
+  fm=try({glm(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver, data=longibcell[,],family=&quot;binomial&quot;)},silent = T)
+  if (inherits(fm,&quot;try-error&quot;)){
+    next()
+  }else{
+    fm=glm(cbind(y1,y2)~bcell + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver ,data=longibcell,family=&quot;binomial&quot;)   
+   a=summary(fm)
+   r1=a$coefficients[2,1]
+   r2=a$coefficients[2,4]
+   r3= c(r1-1.96*a$coefficients[2,2],r1+ 1.96*a$coefficients[2,2])
+   rr=c(r1,r2,r3)
+   microbe=c(microbe,name[k])
+    rrbcell=rbind(rrbcell,rr)
+     }
+
+}
+colnames(rrbcell)=c(&quot;coef&quot;,&quot;pvalue&quot;,&quot;lower&quot;,&quot;upper&quot;)
+fdr=p.adjust(rrbcell[,2],method = &quot;BH&quot;)
+rrbcell=data.frame(microbe,rrbcell,fdr)
+rrbcell=rrbcell[order(rrbcell[,3]),]
+rrbcellfdr=rrbcell[which(rrbcell[,6]&lt;0.1),]</code></pre>
+<pre><code>                     microbe         coef        pvalue        lower
+2                Actinomyces -0.207860369  0.000000e+00 -0.214229285
+3                Akkermansia  0.233888045  0.000000e+00  0.229594517
+6               Anaerostipes  0.137620205  0.000000e+00  0.135740116
+9                Bacteroides  0.032258844  0.000000e+00  0.031714315
+10           Bifidobacterium -0.018555202  0.000000e+00 -0.019211829
+11                   Blautia  0.022665191  0.000000e+00  0.021890819
+17         Clostridium_XVIII  0.107982763  0.000000e+00  0.106874258
+18          Clostridium_XlVa -0.100101651  0.000000e+00 -0.102036401
+20               Collinsella -0.301865955  0.000000e+00 -0.310219288
+22               Coprococcus  0.323296326  0.000000e+00  0.316476761
+24                 Dialister -0.575775805  0.000000e+00 -0.596553964
+28              Enterobacter  0.166285803  0.000000e+00  0.164558479
+29              Enterococcus -0.192002361  0.000000e+00 -0.193513541
+33     F__Enterobacteriaceae -0.088289421  0.000000e+00 -0.090079803
+34    F__Erysipelotrichaceae  0.121631395  0.000000e+00  0.118101146
+35        F__Lachnospiraceae -0.107569632  0.000000e+00 -0.108742151
+37          Faecalibacterium -0.048204790  0.000000e+00 -0.050207064
+40          Fusicatenibacter -0.387264456  0.000000e+00 -0.390971637
+41             Fusobacterium  0.413887264  0.000000e+00  0.402770985
+43                  Gemmiger -0.202054036  0.000000e+00 -0.206400487
+48                Klebsiella  0.136863598  0.000000e+00  0.134456197
+54           Parabacteroides -0.123104897  0.000000e+00 -0.125492705
+57                Prevotella -0.441064681  0.000000e+00 -0.446834035
+59               Pseudomonas -0.805181594  0.000000e+00 -0.816049628
+60                Raoultella  0.330639138  0.000000e+00  0.320047644
+61             Robinsoniella -0.262575151  0.000000e+00 -0.275694744
+63                 Roseburia -0.104922540  0.000000e+00 -0.108911645
+65              Ruminococcus -0.239613082  0.000000e+00 -0.245590507
+66             Ruminococcus2  0.127480986  0.000000e+00  0.124403050
+67            Staphylococcus  0.076171432  0.000000e+00  0.072858256
+68             Streptococcus  0.115515536  0.000000e+00  0.114557948
+75                     Dorea -0.261452404  0.000000e+00 -0.266022984
+42                   Gemella  0.256428370 3.742925e-307  0.243012340
+30      Escherichia/Shigella -0.019192498 8.522963e-300 -0.020208962
+55            Parasutterella -0.333212458 2.218180e-293 -0.351053241
+21             Coprobacillus -0.290433848 1.035016e-252 -0.307198777
+47           Intestinibacter -0.137000071 2.751542e-251 -0.144930805
+71          Terrisporobacter  0.112796263 3.146003e-245  0.106185790
+72               Varibaculum -0.909969373 6.776225e-243 -0.963556297
+46                Hungatella -0.167177498 2.417145e-185 -0.178462977
+16            Clostridium_XI -0.161511442 1.533617e-182 -0.172498755
+62                Romboutsia  0.093997279 2.361171e-149  0.086919070
+27            Eisenbergiella  0.126378913 1.551377e-139  0.116528450
+64                    Rothia  0.182439162 3.530510e-136  0.168042345
+51               Megasphaera -0.102986934 1.649347e-131 -0.111259153
+39            Flavonifractor  0.058315767 1.419004e-127  0.053558856
+4                  Alistipes  0.050739316 1.669952e-118  0.046442350
+31               Eubacterium -0.112236821 5.634513e-115 -0.121889069
+76            Ethanoligenens -0.206332790  4.015048e-93 -0.226089468
+79              Turicibacter -0.539691685  1.674815e-91 -0.591833217
+13            Butyricicoccus -0.088343537  5.909510e-90 -0.096953410
+15            Clostridium_IV -0.048491431  1.290061e-85 -0.053338295
+7              Anaerotruncus -0.292223511  1.496587e-80 -0.322357800
+36        F__Ruminococcaceae  0.049912641  3.648901e-73  0.044505507
+70                Sutterella  0.059010426  3.703778e-66  0.052278431
+58         Propionibacterium -0.239551068  6.885023e-65 -0.267153127
+26               Eggerthella -0.058102582  4.845554e-50 -0.065758850
+19 Clostridium_sensu_stricto -0.008965988  6.343475e-48 -0.010174247
+8                  Atopobium  0.125633564  5.076845e-44  0.107938477
+23           Corynebacterium -0.114725954  2.608384e-38 -0.132100650
+53          O__Clostridiales -0.233796483  3.882821e-28 -0.275460218
+50               Lactococcus -0.086960458  7.383992e-27 -0.102845579
+1              Acinetobacter  0.061709664  1.864643e-22  0.049303049
+74          Clostridium_XlVb -0.194045486  1.518082e-14 -0.243528861
+49             Lactobacillus -0.005818060  4.958550e-13 -0.007396073
+32      F__Coriobacteriaceae -0.464190593  1.813339e-10 -0.606875770
+69           Subdoligranulum  0.034291377  7.553629e-10  0.023369908
+44            Granulicatella -0.052686813  2.165972e-07 -0.072605068
+77  F__Peptostreptococcaceae -0.040208924  7.490779e-06 -0.057803297
+52            Negativicoccus  0.048924705  1.642019e-04  0.023479229
+14          Chryseobacterium -0.166747187  1.796303e-03 -0.271431704
+38                Finegoldia -0.048075188  3.087195e-03 -0.079920380
+56        Peptostreptococcus -0.127064071  7.248920e-03 -0.219812011
+12              Buttiauxella -0.028165146  2.393903e-02 -0.052612040
+5               Anaerococcus -0.027578497  3.236832e-02 -0.052839286
+          upper           fdr
+2  -0.201491454  0.000000e+00
+3   0.238181573  0.000000e+00
+6   0.139500293  0.000000e+00
+9   0.032803373  0.000000e+00
+10 -0.017898575  0.000000e+00
+11  0.023439562  0.000000e+00
+17  0.109091269  0.000000e+00
+18 -0.098166901  0.000000e+00
+20 -0.293512622  0.000000e+00
+22  0.330115892  0.000000e+00
+24 -0.554997646  0.000000e+00
+28  0.168013127  0.000000e+00
+29 -0.190491181  0.000000e+00
+33 -0.086499038  0.000000e+00
+34  0.125161644  0.000000e+00
+35 -0.106397113  0.000000e+00
+37 -0.046202517  0.000000e+00
+40 -0.383557275  0.000000e+00
+41  0.425003542  0.000000e+00
+43 -0.197707586  0.000000e+00
+48  0.139270999  0.000000e+00
+54 -0.120717089  0.000000e+00
+57 -0.435295326  0.000000e+00
+59 -0.794313560  0.000000e+00
+60  0.341230633  0.000000e+00
+61 -0.249455559  0.000000e+00
+63 -0.100933434  0.000000e+00
+65 -0.233635657  0.000000e+00
+66  0.130558922  0.000000e+00
+67  0.079484608  0.000000e+00
+68  0.116473123  0.000000e+00
+75 -0.256881824  0.000000e+00
+42  0.269844400 8.960335e-307
+30 -0.018176033 1.980335e-299
+55 -0.315371676 5.006749e-293
+21 -0.273668920 2.271285e-252
+47 -0.129069337 5.874915e-251
+71  0.119406736 6.540375e-245
+72 -0.856382450 1.372620e-242
+46 -0.155892018 4.773860e-185
+16 -0.150524129 2.955018e-182
+62  0.101075488 4.441250e-149
+27  0.136229377 2.850204e-139
+64  0.196835979 6.338871e-136
+51 -0.094714716 2.895521e-131
+39  0.063072677 2.436986e-127
+4   0.055036281 2.806941e-118
+31 -0.102584572 9.273469e-115
+76 -0.186576111  6.473241e-93
+79 -0.487550152  2.646208e-91
+13 -0.079733664  9.153947e-90
+15 -0.043644566  1.959901e-85
+7  -0.262089222  2.230762e-80
+36  0.055319775  5.338207e-73
+70  0.065742422  5.319972e-66
+58 -0.211949010  9.712801e-65
+26 -0.050446314  6.715768e-50
+19 -0.007757729  8.640250e-48
+8   0.143328650  6.797809e-44
+23 -0.097351258  3.434373e-38
+53 -0.192132747  5.028571e-28
+50 -0.071075337  9.408635e-27
+1   0.074116280  2.338203e-22
+74 -0.144562111  1.873882e-14
+49 -0.004240048  6.026545e-13
+32 -0.321505416  2.170512e-10
+69  0.045212847  8.906518e-10
+44 -0.032768559  2.516350e-07
+77 -0.022614552  8.576399e-06
+52  0.074370181  1.853135e-04
+14 -0.062062670  1.998703e-03
+38 -0.016229996  3.387339e-03
+56 -0.034316131  7.844722e-03
+12 -0.003718252  2.555653e-02
+5  -0.002317707  3.409463e-02</code></pre>
+<p>&lt;&gt;</p>
+</div>
+<div id="microbes-associated-with-cd4-fdr0.1" class="section level3">
+<h3>Microbes associated with CD4: FDR=0.1</h3>
+<details>
+<summary>
+Click me
+</summary>
+<pre class="r"><code>options(warn = 2)
+m=ncol(longidata)-2
+n=nrow(longidata)
+name=colnames(longidata)[-c(1,2)]
+microbe=c()                            
+rrbcell=data.frame()
+for (k in 1:m) {
+  y1=longidata[,k+2]
+  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
+  if (length(which(y1&gt;0))&lt;=5){next}
+  fm=try({glm(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver, data=longicd4,family=&quot;binomial&quot;)},silent = T)
+  if (inherits(fm,&quot;try-error&quot;)){
+    next()
+  }else{
+    fm=glm(cbind(y1,y2)~cd4t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longicd4,family=&quot;binomial&quot;)   
+   a=summary(fm)
+   r1=a$coefficients[2,1]
+   r2=a$coefficients[2,4]
+   r3= c(r1-1.96*a$coefficients[2,2],r1+ 1.96*a$coefficients[2,2])
+   rr=c(r1,r2,r3)
+   microbe=c(microbe,name[k])
+    rrbcell=rbind(rrbcell,rr)
+     }
+
+}
+colnames(rrbcell)=c(&quot;coef&quot;,&quot;pvalue&quot;,&quot;lower&quot;,&quot;upper&quot;)
+fdr=p.adjust(rrbcell[,2],method = &quot;BY&quot;)
+rrbcell=data.frame(microbe,rrbcell,fdr)
+rrbcell=rrbcell[order(rrbcell[,3]),]
+rrbcellfdr=rrbcell[which(rrbcell[,6]&lt;0.1),]</code></pre>
+<pre><code>                     microbe         coef        pvalue        lower
+4                  Alistipes  0.196697241  0.000000e+00  0.193084282
+6               Anaerostipes  0.049471810  0.000000e+00  0.048022243
+10               Bacteroides  0.015061728  0.000000e+00  0.014697411
+11           Bifidobacterium -0.047877523  0.000000e+00 -0.048278833
+12                   Blautia -0.032661380  0.000000e+00 -0.033189958
+16            Clostridium_IV -0.081946100  0.000000e+00 -0.084580226
+18         Clostridium_XVIII  0.063674475  0.000000e+00  0.063005838
+19          Clostridium_XlVa -0.027172217  0.000000e+00 -0.028189172
+20 Clostridium_sensu_stricto -0.126447818  0.000000e+00 -0.127393978
+21             Coprobacillus  0.212067870  0.000000e+00  0.201801309
+28              Enterobacter -0.119131749  0.000000e+00 -0.121177973
+29              Enterococcus  0.026472118  0.000000e+00  0.025852093
+30      Escherichia/Shigella  0.024620357  0.000000e+00  0.024049337
+33     F__Enterobacteriaceae -0.092341728  0.000000e+00 -0.093356870
+35        F__Lachnospiraceae -0.116502912  0.000000e+00 -0.117284858
+36        F__Ruminococcaceae  0.108516508  0.000000e+00  0.104914777
+37          Faecalibacterium  0.021838071  0.000000e+00  0.020904616
+43                  Gemmiger  0.093635865  0.000000e+00  0.090803690
+45               Haemophilus -0.141354801  0.000000e+00 -0.145604368
+46                Hungatella  0.109449533  0.000000e+00  0.104064371
+47           Intestinibacter -0.151112312  0.000000e+00 -0.155322288
+51                 Megamonas -0.352811443  0.000000e+00 -0.362249206
+57             Peptoniphilus  0.235678943  0.000000e+00  0.225715830
+62               Pseudomonas -0.331099805  0.000000e+00 -0.336017900
+64             Robinsoniella -0.362992723  0.000000e+00 -0.371447734
+65                Romboutsia -0.155596664  0.000000e+00 -0.161234115
+66                 Roseburia  0.042561181  0.000000e+00  0.040496281
+69             Ruminococcus2  0.139426348  0.000000e+00  0.137834879
+73          Terrisporobacter -0.095257466  0.000000e+00 -0.099555399
+75               Veillonella -0.128985389  0.000000e+00 -0.130181942
+77                     Dorea -0.083769162  0.000000e+00 -0.086224437
+3                Akkermansia  0.058707451 1.219521e-298  0.055592159
+27            Eisenbergiella -0.077957060 2.640840e-194 -0.083095494
+24                 Dialister -0.147869198 1.905788e-190 -0.157715111
+78            Ethanoligenens -0.199165080 2.023211e-172 -0.213110533
+23           Corynebacterium -0.146433183 2.095143e-170 -0.156747554
+14            Butyricicoccus  0.101668364 2.355950e-169  0.094484653
+52               Megasphaera  0.075593207 1.910779e-167  0.070221185
+70            Staphylococcus -0.030734667 8.863442e-164 -0.032943441
+48                Klebsiella -0.022738207 1.717308e-149 -0.024449643
+71             Streptococcus -0.009092174 5.015050e-139 -0.009802170
+55           Parabacteroides  0.018824058 5.783696e-127  0.017284805
+60                Prevotella  0.037378564 5.225098e-121  0.034246562
+74               Varibaculum -0.175598329  4.671690e-90 -0.192702054
+79  F__Peptostreptococcaceae -0.093331351  9.015804e-87 -0.102596369
+56            Parasutterella  0.098020602  5.712984e-71  0.087234537
+63                Raoultella -0.046952510  9.843631e-57 -0.052750438
+40          Fusicatenibacter -0.013952598  3.997284e-51 -0.015770853
+81              Turicibacter -0.143582342  6.565737e-45 -0.163596220
+72                Sutterella -0.041475574  7.126396e-40 -0.047626773
+68              Ruminococcus -0.021951801  1.237244e-36 -0.025355157
+1              Acinetobacter  0.045767985  2.436928e-29  0.037790999
+34    F__Erysipelotrichaceae -0.013687401  2.903533e-29 -0.016076290
+44            Granulicatella -0.077906076  4.546819e-29 -0.091551407
+9                  Atopobium -0.083180409  9.389152e-24 -0.099406126
+67                    Rothia -0.066032776  3.010464e-22 -0.079375270
+42                   Gemella -0.068081895  5.260720e-20 -0.082651969
+58        Peptostreptococcus -0.316973256  1.296129e-19 -0.385540519
+49             Lactobacillus -0.004923136  1.452630e-19 -0.005989567
+61         Propionibacterium -0.059489422  1.352999e-18 -0.072737457
+59     Phascolarctobacterium  0.050158929  3.582477e-11  0.035309128
+7              Anaerotruncus  0.033523433  7.734431e-08  0.021295017
+13              Buttiauxella -0.038607560  3.547791e-05 -0.056907134
+2                Actinomyces -0.007200078  5.350439e-05 -0.010693387
+15          Chryseobacterium -0.108812134  5.468197e-04 -0.170510103
+17            Clostridium_XI  0.006464442  2.779272e-03  0.002228513
+26               Eggerthella  0.007093726  6.380097e-03  0.001996274
+80             Oscillibacter -0.023840254  7.793264e-03 -0.041400830
+          upper           fdr
+4   0.200310201  0.000000e+00
+6   0.050921378  0.000000e+00
+10  0.015426046  0.000000e+00
+11 -0.047476212  0.000000e+00
+12 -0.032132802  0.000000e+00
+16 -0.079311974  0.000000e+00
+18  0.064343113  0.000000e+00
+19 -0.026155262  0.000000e+00
+20 -0.125501659  0.000000e+00
+21  0.222334430  0.000000e+00
+28 -0.117085525  0.000000e+00
+29  0.027092144  0.000000e+00
+30  0.025191378  0.000000e+00
+33 -0.091326586  0.000000e+00
+35 -0.115720965  0.000000e+00
+36  0.112118239  0.000000e+00
+37  0.022771525  0.000000e+00
+43  0.096468040  0.000000e+00
+45 -0.137105234  0.000000e+00
+46  0.114834695  0.000000e+00
+47 -0.146902337  0.000000e+00
+51 -0.343373680  0.000000e+00
+57  0.245642055  0.000000e+00
+62 -0.326181710  0.000000e+00
+64 -0.354537712  0.000000e+00
+65 -0.149959213  0.000000e+00
+66  0.044626081  0.000000e+00
+69  0.141017817  0.000000e+00
+73 -0.090959533  0.000000e+00
+75 -0.127788836  0.000000e+00
+77 -0.081313888  0.000000e+00
+3   0.061822743 1.536611e-297
+27 -0.072818626 3.226656e-193
+24 -0.138023286 2.260062e-189
+78 -0.185219628 2.330761e-171
+23 -0.136118812 2.346582e-169
+14  0.108852076 2.567373e-168
+52  0.080965230 2.027456e-166
+70 -0.028525893 9.163523e-163
+48 -0.021026772 1.731063e-148
+71 -0.008382178 4.931921e-138
+55  0.020363311 5.552400e-126
+60  0.040510566 4.899488e-120
+74 -0.158494603  4.281007e-89
+79 -0.084066332  8.078237e-86
+56  0.108806667  5.007603e-70
+63 -0.041154582  8.444658e-56
+40 -0.012134344  3.357751e-50
+81 -0.123568464  5.402715e-44
+72 -0.035324374  5.746780e-39
+68 -0.018548444  9.781595e-36
+1   0.053744971  1.889574e-28
+34 -0.011298513  2.208897e-28
+44 -0.064260744  3.394990e-28
+9  -0.066954692  6.883167e-23
+67 -0.052690281  2.167554e-21
+42 -0.053511821  3.721303e-19
+58 -0.248405993  9.010420e-19
+49 -0.003856705  9.927218e-19
+61 -0.046241388  9.092242e-18
+59  0.065008729  2.367981e-10
+7   0.045751849  5.029923e-07
+13 -0.020307986  2.270608e-04
+2  -0.003706769  3.370809e-04
+15 -0.047114165  3.391997e-03
+17  0.010700371  1.697899e-02
+26  0.012191177  3.839521e-02
+80 -0.006279677  4.620991e-02</code></pre>
+<p>&lt;&gt;</p>
+</div>
+<div id="microbes-associated-with-cd8-fdr0.1" class="section level3">
+<h3>Microbes associated with CD8: FDR=0.1</h3>
+<details>
+<summary>
+Click me
+</summary>
+<pre class="r"><code>options(warn = 2)
+m=ncol(longidata)-2
+n=nrow(longidata)
+name=colnames(longidata)[-c(1,2)]
+microbe=c()                            
+rrbcell=data.frame()
+for (k in 1:m) {
+  y1=longidata[,k+2]
+  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
+  if (length(which(y1&gt;0))&lt;=5){next}
+  fm=try({glm(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longicd8,family=&quot;binomial&quot;)},silent = T)
+  if (inherits(fm,&quot;try-error&quot;)){
+    next()
+  }else{
+    fm=glm(cbind(y1,y2)~cd8t + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longicd8,family=&quot;binomial&quot;)   
+   a=summary(fm)
+   r1=a$coefficients[2,1]
+   r2=a$coefficients[2,4]
+   r3= c(r1-1.96*a$coefficients[2,2],r1+ 1.96*a$coefficients[2,2])
+   rr=c(r1,r2,r3)
+   microbe=c(microbe,name[k])
+    rrbcell=rbind(rrbcell,rr)
+     }
+
+}
+colnames(rrbcell)=c(&quot;coef&quot;,&quot;pvalue&quot;,&quot;lower&quot;,&quot;upper&quot;)
+fdr=p.adjust(rrbcell[,2],method = &quot;BY&quot;)
+rrbcell=data.frame(microbe,rrbcell,fdr)
+rrbcell=rrbcell[order(rrbcell[,3]),]
+rrbcellfdr=rrbcell[which(rrbcell[,6]&lt;0.1),]</code></pre>
+<pre><code>                     microbe         coef        pvalue        lower
+1              Acinetobacter  0.887908862  0.000000e+00  0.871115476
+3                Akkermansia  0.124921038  0.000000e+00  0.119546553
+4                  Alistipes  0.166789041  0.000000e+00  0.162858195
+6               Anaerostipes  0.114844553  0.000000e+00  0.112640854
+10               Bacteroides -0.047894283  0.000000e+00 -0.048568913
+12                   Blautia -0.165782744  0.000000e+00 -0.166829666
+14            Butyricicoccus -0.215432459  0.000000e+00 -0.226604426
+17            Clostridium_IV -0.143240536  0.000000e+00 -0.148512916
+18            Clostridium_XI  0.226003293  0.000000e+00  0.218186405
+19         Clostridium_XVIII  0.177945155  0.000000e+00  0.176683749
+23             Coprobacillus -0.384452873  0.000000e+00 -0.401876407
+26                 Dialister -0.388806595  0.000000e+00 -0.404273819
+30              Enterobacter  0.294576607  0.000000e+00  0.291920354
+32      Escherichia/Shigella  0.060418406  0.000000e+00  0.059394031
+35     F__Enterobacteriaceae  0.037998641  0.000000e+00  0.036227579
+38        F__Ruminococcaceae -0.180602865  0.000000e+00 -0.187089311
+39          Faecalibacterium -0.148745260  0.000000e+00 -0.150897928
+43             Fusobacterium  0.647649100  0.000000e+00  0.627965878
+44                   Gemella  0.399819589  0.000000e+00  0.379024030
+45                  Gemmiger -0.153640237  0.000000e+00 -0.158185933
+47               Haemophilus  0.269785733  0.000000e+00  0.262850664
+48                Hungatella  0.261674315  0.000000e+00  0.252622205
+49           Intestinibacter  0.125229365  0.000000e+00  0.118739869
+50                Klebsiella -0.132077429  0.000000e+00 -0.135996400
+51             Lactobacillus  0.063566085  0.000000e+00  0.061716634
+53               Megasphaera -0.224187881  0.000000e+00 -0.234437957
+56           Parabacteroides -0.051691084  0.000000e+00 -0.054218962
+60                Raoultella  0.404069666  0.000000e+00  0.390725302
+62                Romboutsia  0.369173706  0.000000e+00  0.360643924
+63                 Roseburia  0.128897733  0.000000e+00  0.125799441
+65              Ruminococcus -0.119760706  0.000000e+00 -0.124996899
+67            Staphylococcus  0.116858344  0.000000e+00  0.113272691
+68             Streptococcus  0.146288125  0.000000e+00  0.145087430
+74                  Yersinia  0.591466080  0.000000e+00  0.588435558
+76                     Dorea -0.225524594  0.000000e+00 -0.229932860
+42          Fusicatenibacter -0.054760706 2.634416e-274 -0.057793704
+64                    Rothia  0.315724921 4.378212e-219  0.296138643
+54            Negativicoccus  0.582593665 4.721755e-203  0.545037846
+73               Veillonella  0.029287516 8.637630e-201  0.027388834
+22               Collinsella -0.104130762 2.638960e-179 -0.111278947
+9                  Atopobium  0.335988134 2.979501e-177  0.312789083
+31              Enterococcus  0.017693983 1.598420e-162  0.016417422
+70                Sutterella -0.142132315 5.392370e-160 -0.152468412
+2                Actinomyces -0.080957193 8.959549e-128 -0.087555757
+66             Ruminococcus2 -0.046916397 6.795158e-122 -0.050833039
+28               Eggerthella -0.107301613 9.548919e-120 -0.116340603
+36    F__Erysipelotrichaceae -0.048937450 5.191083e-103 -0.053388184
+78  F__Peptostreptococcaceae  0.132901256  8.273116e-74  0.118568439
+29            Eisenbergiella  0.089300581  5.849608e-73  0.079612539
+69           Subdoligranulum -0.108277323  1.427260e-66 -0.120590177
+77            Ethanoligenens  0.179788068  2.638786e-65  0.159140238
+37        F__Lachnospiraceae  0.010215034  2.681254e-65  0.009041820
+20          Clostridium_XlVa -0.015376479  2.136648e-54 -0.017316966
+52               Lactococcus -0.129960232  2.644482e-50 -0.147038818
+55          O__Clostridiales -0.285652789  6.649972e-47 -0.324580213
+33               Eubacterium -0.072357282  8.761335e-45 -0.082457805
+11           Bifidobacterium  0.005204812  9.651851e-45  0.004477905
+75          Clostridium_XlVb -0.347811265  1.052854e-43 -0.396983986
+5               Anaerococcus -0.234333905  2.785359e-42 -0.268039820
+24               Coprococcus -0.046552102  3.682102e-39 -0.053521666
+16               Citrobacter  0.027435242  8.233842e-38  0.023251666
+21 Clostridium_sensu_stricto  0.009478637  1.287199e-37  0.008029346
+71          Terrisporobacter -0.030630343  2.052180e-18 -0.037488102
+72               Varibaculum  0.117369022  8.559453e-18  0.090594369
+61             Robinsoniella  0.039269818  1.986469e-15  0.029578679
+40                Finegoldia -0.141955137  1.339006e-14 -0.178079555
+59         Propionibacterium -0.101268699  7.002125e-11 -0.131708582
+8                Anaerovorax -0.292342663  3.558610e-10 -0.383696062
+25           Corynebacterium -0.058113671  7.595655e-09 -0.077829607
+13              Buttiauxella -0.068307349  5.900424e-06 -0.097862444
+80              Turicibacter  0.063076738  9.142546e-05  0.031476207
+34      F__Coriobacteriaceae -0.257318307  1.074559e-04 -0.387535122
+7              Anaerotruncus  0.042676902  3.418763e-04  0.019320438
+58        Peptostreptococcus -0.131277031  8.159037e-03 -0.228540718
+46            Granulicatella  0.025509204  1.011325e-02  0.006069334
+          upper           fdr
+1   0.904702248  0.000000e+00
+3   0.130295524  0.000000e+00
+4   0.170719887  0.000000e+00
+6   0.117048253  0.000000e+00
+10 -0.047219653  0.000000e+00
+12 -0.164735821  0.000000e+00
+14 -0.204260493  0.000000e+00
+17 -0.137968156  0.000000e+00
+18  0.233820181  0.000000e+00
+19  0.179206561  0.000000e+00
+23 -0.367029339  0.000000e+00
+26 -0.373339372  0.000000e+00
+30  0.297232860  0.000000e+00
+32  0.061442780  0.000000e+00
+35  0.039769703  0.000000e+00
+38 -0.174116419  0.000000e+00
+39 -0.146592591  0.000000e+00
+43  0.667332322  0.000000e+00
+44  0.420615148  0.000000e+00
+45 -0.149094541  0.000000e+00
+47  0.276720802  0.000000e+00
+48  0.270726426  0.000000e+00
+49  0.131718860  0.000000e+00
+50 -0.128158457  0.000000e+00
+51  0.065415535  0.000000e+00
+53 -0.213937806  0.000000e+00
+56 -0.049163205  0.000000e+00
+60  0.417414029  0.000000e+00
+62  0.377703487  0.000000e+00
+63  0.131996024  0.000000e+00
+65 -0.114524514  0.000000e+00
+67  0.120443997  0.000000e+00
+68  0.147488820  0.000000e+00
+74  0.594496602  0.000000e+00
+76 -0.221116328  0.000000e+00
+42 -0.051727709 2.906920e-273
+64  0.335311199 4.700523e-218
+54  0.620149485 4.935953e-202
+73  0.031186199 8.797943e-200
+22 -0.096982577 2.620740e-178
+9   0.359187186 2.886761e-176
+31  0.018970543 1.511795e-161
+70 -0.131796219 4.981526e-159
+2  -0.074358628 8.088810e-127
+66 -0.042999754 5.998439e-121
+28 -0.098262622 8.246080e-119
+36 -0.044486715 4.387441e-102
+78  0.147234072  6.846664e-73
+29  0.098988623  4.742221e-72
+69 -0.095964469  1.133925e-65
+77  0.200435898  2.048264e-64
+37  0.011388248  2.048264e-64
+20 -0.013435993  1.601431e-53
+52 -0.112881646  1.945351e-49
+55 -0.246725366  4.802953e-46
+33 -0.062256758  6.214890e-44
+11  0.005931719  6.726465e-44
+75 -0.298638543  7.210930e-43
+5  -0.200627989  1.875341e-41
+24 -0.039582538  2.437787e-38
+16  0.031618819  5.361964e-37
+21  0.010927927  8.247176e-37
+71 -0.023772583  1.293976e-17
+72  0.144143675  5.312724e-17
+61  0.048960958  1.214002e-14
+40 -0.105830719  8.059159e-14
+59 -0.070828817  4.151511e-10
+8  -0.200989264  2.078848e-09
+25 -0.038397734  4.372877e-08
+13 -0.038752254  3.348392e-05
+80  0.094677270  5.115169e-04
+34 -0.127101492  5.928554e-04
+7   0.066033366  1.860361e-03
+58 -0.034013345  4.379841e-02
+46  0.044949075  5.356495e-02</code></pre>
+<p>&lt;&gt;</p>
+</div>
+<div id="microbes-associated-with-mono-fdr0.1" class="section level3">
+<h3>Microbes associated with Mono: FDR=0.1</h3>
+<details>
+<summary>
+Click me
+</summary>
+<pre class="r"><code>options(warn = 2)
+m=ncol(longidata)-2
+n=nrow(longidata)
+name=colnames(longidata)[-c(1,2)]
+microbe=c()                            
+rrbcell=data.frame()
+for (k in 1:m) {
+  y1=longidata[,k+2]
+  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
+ 
+  if (length(which(y1&gt;0))&lt;=5) {next}
+  fm=try({glm(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longimono,family=&quot;binomial&quot;)},silent = T)
+  if (inherits(fm,&quot;try-error&quot;)){
+    next()
+  }else{
+    fm=glm(cbind(y1,y2)~mono + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longimono,family=&quot;binomial&quot;)
+   a=summary(fm)
+   r1=a$coefficients[2,1]
+   r2=a$coefficients[2,4]
+   r3= c(r1-1.96*a$coefficients[2,2],r1+ 1.96*a$coefficients[2,2])
+   rr=c(r1,r2,r3)
+   microbe=c(microbe,name[k])
+    rrbcell=rbind(rrbcell,rr)
+     }
+
+}
+colnames(rrbcell)=c(&quot;coef&quot;,&quot;pvalue&quot;,&quot;lower&quot;,&quot;upper&quot;)
+fdr=p.adjust(rrbcell[,2],method = &quot;BH&quot;)
+rrbcell=data.frame(microbe,rrbcell,fdr)
+rrbcell=rrbcell[order(rrbcell[,3]),]
+rrbcellfdr=rrbcell[which(rrbcell[,6]&lt;0.1),]</code></pre>
+<pre><code>                     microbe        coef        pvalue        lower
+2                Actinomyces -0.55381633  0.000000e+00 -0.562797403
+4                  Alistipes -0.38464964  0.000000e+00 -0.393046178
+6               Anaerostipes -0.10123060  0.000000e+00 -0.104068313
+11           Bifidobacterium -0.13320511  0.000000e+00 -0.134040462
+12                   Blautia -0.12105317  0.000000e+00 -0.122198851
+17            Clostridium_IV  0.13255017  0.000000e+00  0.127707580
+18            Clostridium_XI  0.28288577  0.000000e+00  0.272558723
+19         Clostridium_XVIII  0.19277874  0.000000e+00  0.191343737
+20          Clostridium_XlVa  0.05995680  0.000000e+00  0.057990992
+21 Clostridium_sensu_stricto  0.08249858  0.000000e+00  0.080835722
+22               Collinsella -0.19641653  0.000000e+00 -0.205429746
+28            Eisenbergiella  0.22610043  0.000000e+00  0.215043024
+29              Enterobacter -0.21734539  0.000000e+00 -0.221073687
+30              Enterococcus -0.14679034  0.000000e+00 -0.148337974
+31      Escherichia/Shigella  0.08626445  0.000000e+00  0.085168025
+34     F__Enterobacteriaceae  0.04884058  0.000000e+00  0.046877066
+35    F__Erysipelotrichaceae -0.28466863  0.000000e+00 -0.288454914
+36        F__Lachnospiraceae -0.15002443  0.000000e+00 -0.151574707
+38          Faecalibacterium -0.15477912  0.000000e+00 -0.156859098
+40            Flavonifractor -0.16492843  0.000000e+00 -0.169300782
+42             Fusobacterium -0.76293522  0.000000e+00 -0.785014885
+44                  Gemmiger  0.14183701  0.000000e+00  0.136790703
+47                Hungatella -0.33514764  0.000000e+00 -0.346220266
+49                Klebsiella  0.16043918  0.000000e+00  0.156680820
+50             Lactobacillus  0.04505124  0.000000e+00  0.042877070
+53               Megasphaera  0.20958122  0.000000e+00  0.200385963
+56           Parabacteroides -0.10941370  0.000000e+00 -0.112561211
+59                Prevotella -0.35556273  0.000000e+00 -0.361104388
+61               Pseudomonas -0.71699736  0.000000e+00 -0.728362231
+62                Raoultella  0.92232859  0.000000e+00  0.903913942
+64                Romboutsia  0.32108162  0.000000e+00  0.312440261
+68             Ruminococcus2  0.15178068  0.000000e+00  0.147582013
+69            Staphylococcus  0.15152647  0.000000e+00  0.147280608
+70             Streptococcus  0.02837784  0.000000e+00  0.026961786
+72                Sutterella  0.20982091  0.000000e+00  0.199273330
+73          Terrisporobacter -0.35677204  0.000000e+00 -0.364484367
+77                     Dorea -0.44912747  0.000000e+00 -0.455889234
+46               Haemophilus  0.14818266 1.591546e-286  0.140153628
+10               Bacteroides  0.01053364 5.219700e-177  0.009805813
+23             Coprobacillus -0.27534070 3.074858e-176 -0.294407459
+43                   Gemella -0.45214253 2.472618e-174 -0.483625101
+16               Citrobacter  0.06613505 6.338254e-165  0.061398941
+41          Fusicatenibacter -0.05705407 5.368531e-156 -0.061256659
+25                 Dialister -0.20246978 9.759579e-142 -0.218126254
+1              Acinetobacter  0.17816210 6.853621e-125  0.163471302
+14            Butyricicoccus -0.15097148 1.737758e-120 -0.163649410
+7              Anaerotruncus -0.28741937 2.699657e-109 -0.312782767
+63             Robinsoniella  0.10423752 1.028028e-104  0.094836279
+55          O__Clostridiales -0.51593741  1.817114e-88 -0.566650472
+37        F__Ruminococcaceae -0.07340292  4.728653e-85 -0.080764609
+60         Propionibacterium  0.24958307  5.506365e-85  0.224542057
+66                    Rothia -0.24251248  6.657819e-65 -0.270452536
+32               Eubacterium -0.09866514  5.122689e-64 -0.110113146
+45            Granulicatella -0.22691611  5.981631e-63 -0.253473856
+52                 Megamonas -0.16073412  4.193560e-57 -0.180515743
+65                 Roseburia -0.03345430  3.269975e-55 -0.037643830
+71           Subdoligranulum -0.10948174  8.749315e-52 -0.123654559
+79             Oscillibacter -0.20630670  6.053858e-26 -0.244694790
+76          Clostridium_XlVb -0.25989592  5.971596e-24 -0.310369349
+80              Turicibacter -0.18505954  3.429640e-19 -0.225568642
+24           Corynebacterium -0.09304773  3.099068e-17 -0.114648881
+67              Ruminococcus  0.03309570  2.271110e-15  0.024911103
+5               Anaerococcus -0.09127107  3.157623e-09 -0.121472939
+8                Anaerovorax -0.32793411  5.411420e-09 -0.438107388
+33      F__Coriobacteriaceae  0.33613492  1.926634e-08  0.218874305
+27               Eggerthella -0.02575240  1.248154e-07 -0.035300609
+54            Negativicoccus -0.08892166  1.276426e-06 -0.124906056
+13              Buttiauxella -0.07426331  8.246722e-06 -0.106908890
+51               Lactococcus -0.03151664  2.903652e-05 -0.046291611
+26            Dolosigranulum -0.18778179  7.955109e-04 -0.297505608
+74               Varibaculum -0.04865106  2.027263e-03 -0.079548539
+48           Intestinibacter -0.01188697  2.027537e-03 -0.019436279
+9                  Atopobium  0.04474044  2.370120e-03  0.015889391
+3                Akkermansia -0.00802083  6.067164e-03 -0.013749724
+78  F__Peptostreptococcaceae -0.01738239  4.609276e-02 -0.034463744
+          upper           fdr
+2  -0.544835257  0.000000e+00
+4  -0.376253093  0.000000e+00
+6  -0.098392895  0.000000e+00
+11 -0.132369753  0.000000e+00
+12 -0.119907480  0.000000e+00
+17  0.137392759  0.000000e+00
+18  0.293212809  0.000000e+00
+19  0.194213738  0.000000e+00
+20  0.061922611  0.000000e+00
+21  0.084161434  0.000000e+00
+22 -0.187403324  0.000000e+00
+28  0.237157829  0.000000e+00
+29 -0.213617090  0.000000e+00
+30 -0.145242708  0.000000e+00
+31  0.087360874  0.000000e+00
+34  0.050804096  0.000000e+00
+35 -0.280882348  0.000000e+00
+36 -0.148474156  0.000000e+00
+38 -0.152699147  0.000000e+00
+40 -0.160556081  0.000000e+00
+42 -0.740855546  0.000000e+00
+44  0.146883312  0.000000e+00
+47 -0.324075018  0.000000e+00
+49  0.164197545  0.000000e+00
+50  0.047225403  0.000000e+00
+53  0.218776470  0.000000e+00
+56 -0.106266187  0.000000e+00
+59 -0.350021063  0.000000e+00
+61 -0.705632482  0.000000e+00
+62  0.940743230  0.000000e+00
+64  0.329722988  0.000000e+00
+68  0.155979344  0.000000e+00
+69  0.155772334  0.000000e+00
+70  0.029793902  0.000000e+00
+72  0.220368493  0.000000e+00
+73 -0.349059715  0.000000e+00
+77 -0.442365698  0.000000e+00
+46  0.156211698 3.350624e-286
+10  0.011261462 1.070708e-176
+23 -0.256273948 6.149715e-176
+43 -0.420659961 4.824621e-174
+16  0.070871159 1.207286e-164
+41 -0.052851474 9.987964e-156
+25 -0.186813302 1.774469e-141
+1   0.192852894 1.218422e-124
+14 -0.138293541 3.022189e-120
+7  -0.262055963 4.595162e-109
+63  0.113638770 1.713380e-104
+55 -0.465224344  2.966716e-88
+37 -0.066041232  7.565845e-85
+60  0.274624093  8.637435e-85
+66 -0.214572425  1.024280e-64
+32 -0.087217132  7.732361e-64
+45 -0.200358371  8.861676e-63
+52 -0.140952503  6.099723e-57
+65 -0.029264763  4.671392e-55
+71 -0.095308911  1.227974e-51
+79 -0.167918601  8.350150e-26
+76 -0.209422497  8.097080e-24
+80 -0.144550445  4.572853e-19
+24 -0.071446575  4.064351e-17
+67  0.041280302  2.930464e-15
+5  -0.061069203  4.009680e-09
+8  -0.217760838  6.764275e-09
+33  0.453395531  2.371242e-08
+27 -0.016204188  1.512914e-07
+54 -0.052937264  1.524091e-06
+13 -0.041617729  9.702026e-06
+51 -0.016741660  3.366553e-05
+26 -0.078057973  9.091553e-04
+74 -0.017753581  2.252819e-03
+48 -0.004337653  2.252819e-03
+9   0.073591481  2.597392e-03
+3  -0.002291936  6.559096e-03
+78 -0.000301040  4.916561e-02</code></pre>
+</details>
+</div>
+<div id="microbes-associated-with-nk-fdr0.1" class="section level3">
+<h3>Microbes associated with NK: FDR=0.1</h3>
+<details>
+<summary>
+Click me
+</summary>
+<pre class="r"><code>options(warn = 2)
+m=ncol(longidata)-2
+n=nrow(longidata)
+name=colnames(longidata)[-c(1,2)]
+microbe=c()                            
+rrbcell=data.frame()
+for (k in 1:m) {
+  y1=longidata[,k+2]
+  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
+   if (length(which(y1&gt;0))&lt;=5) {next}
+  fm=try({glm(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longink,family=&quot;binomial&quot;)},silent = T)
+  if (inherits(fm,&quot;try-error&quot;)){
+    next()
+  }else{
+    fm=glm(cbind(y1,y2)~nk + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver,  data=longink,family=&quot;binomial&quot;)  
+   a=summary(fm)
+   r1=a$coefficients[2,1]
+   r2=a$coefficients[2,4]
+   r3= c(r1-1.96*a$coefficients[2,2],r1+ 1.96*a$coefficients[2,2])
+   rr=c(r1,r2,r3)
+   microbe=c(microbe,name[k])
+    rrbcell=rbind(rrbcell,rr)
+     }
+}
+colnames(rrbcell)=c(&quot;coef&quot;,&quot;pvalue&quot;,&quot;lower&quot;,&quot;upper&quot;)
+fdr=p.adjust(rrbcell[,2],method = &quot;BH&quot;)
+rrbcell=data.frame(microbe,rrbcell,fdr)
+rrbcell=rrbcell[order(rrbcell[,3]),]
+rrbcellfdr=rrbcell[which(rrbcell[,6]&lt;0.1),]</code></pre>
+<pre><code>                     microbe         coef        pvalue        lower
+2                Actinomyces  0.091172759  0.000000e+00  0.087361853
+10               Bacteroides -0.011234630  0.000000e+00 -0.011748712
+11           Bifidobacterium -0.143755180  0.000000e+00 -0.144410817
+12                   Blautia  0.021377286  0.000000e+00  0.020706598
+16            Clostridium_IV  0.081193939  0.000000e+00  0.077393802
+17            Clostridium_XI  0.200453479  0.000000e+00  0.194670009
+20 Clostridium_sensu_stricto  0.033785347  0.000000e+00  0.032845273
+23               Coprococcus  0.213236080  0.000000e+00  0.208050677
+24           Corynebacterium -0.555385300  0.000000e+00 -0.579105602
+25                 Dialister -0.330112451  0.000000e+00 -0.340860939
+28            Eisenbergiella  0.208512998  0.000000e+00  0.202091939
+29              Enterobacter -0.090670721  0.000000e+00 -0.092824555
+31      Escherichia/Shigella -0.104605839  0.000000e+00 -0.105560982
+34     F__Enterobacteriaceae  0.242308011  0.000000e+00  0.241056742
+35    F__Erysipelotrichaceae  0.246947786  0.000000e+00  0.244223233
+36        F__Lachnospiraceae  0.048977614  0.000000e+00  0.048039889
+41          Fusicatenibacter -0.127313560  0.000000e+00 -0.130391104
+44                  Gemmiger -0.323702579  0.000000e+00 -0.329047445
+47                Hungatella -0.243603473  0.000000e+00 -0.255047218
+50             Lactobacillus  0.092587397  0.000000e+00  0.091264265
+59                Prevotella -0.104228348  0.000000e+00 -0.107917782
+61               Pseudomonas  0.278046694  0.000000e+00  0.271624594
+70             Streptococcus  0.033852044  0.000000e+00  0.032949539
+71           Subdoligranulum  0.263537577  0.000000e+00  0.254258187
+73          Terrisporobacter  0.192626459  0.000000e+00  0.188244127
+76               Veillonella  0.032953670  0.000000e+00  0.031512267
+78                     Dorea -0.120781789  0.000000e+00 -0.124527604
+69            Staphylococcus -0.061477223 3.604120e-258 -0.064987888
+19          Clostridium_XlVa -0.021313852 2.194982e-233 -0.022594546
+60         Propionibacterium -0.555975290 6.222221e-231 -0.589560959
+65                 Roseburia -0.047306967 1.366647e-229 -0.050173128
+46               Haemophilus -0.088733562 5.756098e-183 -0.094762831
+40            Flavonifractor -0.050833331 3.643697e-177 -0.054344108
+68             Ruminococcus2 -0.053198460 3.589032e-174 -0.056904396
+21               Collinsella -0.071988236 9.740342e-174 -0.077009443
+1              Acinetobacter -0.154879630 1.744280e-158 -0.166196951
+38          Faecalibacterium  0.022875393 1.312889e-157  0.021199146
+72                Sutterella  0.081574383 9.894864e-157  0.075579909
+18         Clostridium_XVIII  0.014425360 5.904201e-148  0.013333906
+63             Robinsoniella -0.089931322 2.212143e-146 -0.096772702
+67              Ruminococcus  0.074223901 3.923826e-146  0.068572564
+3                Akkermansia  0.042610731 4.178182e-146  0.039366083
+64                Romboutsia  0.052622609  1.314091e-85  0.047362570
+57            Parasutterella -0.181190312  1.976611e-78 -0.200131857
+74              Unclassified  0.348172609  7.657008e-73  0.310368954
+13              Buttiauxella -0.189847863  1.633126e-69 -0.210962105
+52                 Megamonas  0.064978903  4.549943e-69  0.057728284
+22             Coprobacillus -0.078167325  3.222760e-68 -0.086945257
+14            Butyricicoccus  0.045573228  3.448438e-49  0.039514232
+42             Fusobacterium  0.045675331  4.023142e-46  0.039396298
+51               Lactococcus -0.080672246  1.291488e-44 -0.091955594
+32               Eubacterium  0.047514901  2.616538e-38  0.040318864
+8                Anaerovorax  0.214601076  5.229880e-38  0.181965746
+62                Raoultella  0.049702482  5.654540e-37  0.042033974
+4                  Alistipes  0.022264874  2.445172e-30  0.018452466
+77          Clostridium_XlVb  0.114922278  2.174177e-23  0.092317834
+37        F__Ruminococcaceae  0.026652530  4.664337e-22  0.021242182
+56           Parabacteroides  0.009708555  8.285136e-20  0.007619636
+48           Intestinibacter  0.021450355  1.264452e-17  0.016531294
+58        Peptostreptococcus  0.223912613  1.985757e-13  0.164200564
+5               Anaerococcus  0.071440011  5.547786e-13  0.052022546
+9                  Atopobium -0.071143179  2.205754e-12 -0.091004206
+53               Megasphaera -0.019833206  5.086934e-11 -0.025751431
+82              Turicibacter -0.082845834  6.282343e-11 -0.107686172
+30              Enterococcus -0.002854858  3.112307e-09 -0.003799160
+79            Ethanoligenens -0.040432180  2.898576e-08 -0.054717483
+6               Anaerostipes  0.004926779  5.224315e-08  0.003152831
+80  F__Peptostreptococcaceae -0.025651809  2.369682e-05 -0.037546566
+81             Oscillibacter  0.039401187  1.813029e-04  0.018773052
+45            Granulicatella  0.021462571  1.541579e-03  0.008178678
+66                    Rothia -0.025787035  2.839902e-03 -0.042721745
+27               Eggerthella -0.006435239  2.581087e-02 -0.012093745
+55          O__Clostridiales  0.019606542  2.959622e-02  0.001941793
+           upper           fdr
+2   0.0949836660  0.000000e+00
+10 -0.0107205480  0.000000e+00
+11 -0.1430995443  0.000000e+00
+12  0.0220479738  0.000000e+00
+16  0.0849940749  0.000000e+00
+17  0.2062369497  0.000000e+00
+20  0.0347254213  0.000000e+00
+23  0.2184214829  0.000000e+00
+24 -0.5316649975  0.000000e+00
+25 -0.3193639635  0.000000e+00
+28  0.2149340574  0.000000e+00
+29 -0.0885168861  0.000000e+00
+31 -0.1036506970  0.000000e+00
+34  0.2435592807  0.000000e+00
+35  0.2496723391  0.000000e+00
+36  0.0499153383  0.000000e+00
+41 -0.1242360157  0.000000e+00
+44 -0.3183577129  0.000000e+00
+47 -0.2321597277  0.000000e+00
+50  0.0939105297  0.000000e+00
+59 -0.1005389132  0.000000e+00
+61  0.2844687935  0.000000e+00
+70  0.0347545492  0.000000e+00
+71  0.2728169675  0.000000e+00
+73  0.1970087898  0.000000e+00
+76  0.0343950724  0.000000e+00
+78 -0.1170359750  0.000000e+00
+69 -0.0579665582 1.055492e-257
+19 -0.0200331579 6.206500e-233
+60 -0.5223896214 1.700740e-230
+65 -0.0444408051 3.615003e-229
+46 -0.0827042936 1.475000e-182
+40 -0.0473225542 9.054035e-177
+68 -0.0494925235 8.655902e-174
+21 -0.0669670286 2.282023e-173
+1  -0.1435623096 3.973082e-158
+38  0.0245516401 2.909647e-157
+72  0.0875688574 2.135208e-156
+18  0.0155168130 1.241396e-147
+63 -0.0830899414 4.534893e-146
+67  0.0798752387 7.847652e-146
+3   0.0458553788 8.157403e-146
+64  0.0578826491  2.505941e-85
+57 -0.1622487668  3.683683e-78
+74  0.3859762638  1.395277e-72
+13 -0.1687336207  2.911224e-69
+52  0.0722295214  7.938198e-69
+22 -0.0693893927  5.505549e-68
+14  0.0516322242  5.770856e-49
+42  0.0519543647  6.597953e-46
+51 -0.0693888988  2.076510e-44
+32  0.0547109383  4.126079e-38
+8   0.2472364057  8.091512e-38
+62  0.0573709897  8.586523e-37
+4   0.0260772822  3.645529e-30
+77  0.1375267231  3.183616e-23
+37  0.0320628782  6.710098e-22
+56  0.0117974746  1.171347e-19
+48  0.0263694162  1.757373e-17
+58  0.2836246621  2.713867e-13
+5   0.0908574771  7.457679e-13
+9  -0.0512821511  2.917288e-12
+53 -0.0139149812  6.621089e-11
+82 -0.0580054957  8.049251e-11
+30 -0.0019105555  3.926295e-09
+79 -0.0261468780  3.601261e-08
+6   0.0067007263  6.393937e-08
+80 -0.0137570531  2.857558e-05
+81  0.0600293211  2.154614e-04
+45  0.0347464631  1.805849e-03
+66 -0.0088523257  3.279887e-03
+27 -0.0007767327  2.939572e-02
+55  0.0372712902  3.324507e-02</code></pre>
+<p>&lt;&gt;</p>
+</div>
+<div id="microbes-associated-with-nrbc-fdr0.1" class="section level3">
+<h3>Microbes associated with NRBC: FDR=0.1</h3>
+<details>
+<summary>
+Click me
+</summary>
+<pre class="r"><code>options(warn = 2)
+m=ncol(longidata)-2
+n=nrow(longidata)
+name=colnames(longidata)[-c(1,2)]
+microbe=c()                            
+rrbcell=data.frame()
+for (k in 1:m) {
+  y1=longidata[,k+2]
+  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
+   if (length(which(y1&gt;0))&lt;=5) {next}
+  fm=try({glm(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longinrbc,family=&quot;binomial&quot;)},silent = T)
+  if (inherits(fm,&quot;try-error&quot;)){
+    next()
+  }else{
+    fm=glm(cbind(y1,y2)~nrbc + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longinrbc,family=&quot;binomial&quot;)   
+   a=summary(fm)
+   r1=a$coefficients[2,1]
+   r2=a$coefficients[2,4]
+   r3= c(r1-1.96*a$coefficients[2,2],r1+ 1.96*a$coefficients[2,2])
+   rr=c(r1,r2,r3)
+   microbe=c(microbe,name[k])
+    rrbcell=rbind(rrbcell,rr)
+     }
+
+}
+colnames(rrbcell)=c(&quot;coef&quot;,&quot;pvalue&quot;,&quot;lower&quot;,&quot;upper&quot;)
+fdr=round(p.adjust(rrbcell[,2],method = &quot;BH&quot;),3)
+rrbcell=data.frame(microbe,rrbcell,fdr)
+rrbcell=rrbcell[order(rrbcell[,3]),]
+rrbcellfdr=rrbcell[which(rrbcell[,6]&lt;0.1),]</code></pre>
+<pre><code>                     microbe         coef        pvalue        lower
+1                Actinomyces  0.095424480  0.000000e+00  0.093526821
+5               Anaerostipes  0.060080126  0.000000e+00  0.059010058
+8                Bacteroides -0.015507514  0.000000e+00 -0.015751493
+9            Bifidobacterium  0.016628891  0.000000e+00  0.016364523
+10                   Blautia  0.044783630  0.000000e+00  0.044461608
+16         Clostridium_XVIII -0.008548666  0.000000e+00 -0.008952699
+17          Clostridium_XlVa -0.019681902  0.000000e+00 -0.020218430
+19               Collinsella  0.079983904  0.000000e+00  0.077760899
+22                 Dialister -0.113184792  0.000000e+00 -0.117733493
+25            Eisenbergiella  0.129740079  0.000000e+00  0.125612857
+26              Enterobacter  0.034618005  0.000000e+00  0.033702509
+27              Enterococcus -0.006471847  0.000000e+00 -0.006804192
+28      Escherichia/Shigella -0.011117232  0.000000e+00 -0.011509285
+31     F__Enterobacteriaceae  0.050497743  0.000000e+00  0.049921696
+32    F__Erysipelotrichaceae  0.083023766  0.000000e+00  0.081741145
+33        F__Lachnospiraceae  0.081437390  0.000000e+00  0.080921914
+35          Faecalibacterium -0.012102116  0.000000e+00 -0.012655600
+37            Flavonifractor  0.077735164  0.000000e+00  0.076296348
+38          Fusicatenibacter  0.049255799  0.000000e+00  0.047877301
+40                  Gemmiger -0.047499294  0.000000e+00 -0.049717613
+42               Haemophilus -0.097701237  0.000000e+00 -0.101813826
+43                Hungatella  0.121406545  0.000000e+00  0.117420874
+48               Megasphaera -0.108723099  0.000000e+00 -0.113183802
+50           Parabacteroides  0.103165768  0.000000e+00  0.101985304
+55                Raoultella -0.099602652  0.000000e+00 -0.103884168
+57                Romboutsia -0.071686608  0.000000e+00 -0.074079922
+58                 Roseburia -0.052426693  0.000000e+00 -0.053574275
+61             Ruminococcus2 -0.077856974  0.000000e+00 -0.078731644
+62            Staphylococcus -0.084186970  0.000000e+00 -0.086171778
+65          Terrisporobacter  0.068496909  0.000000e+00  0.066389228
+67               Veillonella  0.013988561  0.000000e+00  0.013299366
+68                     Dorea  0.085800698  0.000000e+00  0.083999253
+2                Akkermansia -0.040745198 2.406969e-278 -0.042985364
+63             Streptococcus -0.006879994 1.670526e-204 -0.007321907
+53                Prevotella  0.026369079 2.469936e-171  0.024516811
+15            Clostridium_XI -0.035113879 1.277918e-154 -0.037712003
+21           Corynebacterium -0.116083847  2.784583e-96 -0.127011409
+44           Intestinibacter  0.020423316  9.307455e-93  0.018463826
+34        F__Ruminococcaceae -0.028153070  3.546278e-92 -0.030862861
+20             Coprobacillus -0.058423420  6.633875e-78 -0.064552062
+39                   Gemella  0.072697516  2.626067e-69  0.064599988
+64                Sutterella -0.035940516  8.214161e-69 -0.039958585
+54         Propionibacterium -0.111905721  8.189192e-64 -0.124911343
+46             Lactobacillus  0.004933206  5.601791e-53  0.004302074
+4               Anaerococcus -0.092092638  8.924480e-46 -0.104802374
+14            Clostridium_IV -0.010230212  3.540831e-43 -0.011685701
+6              Anaerotruncus  0.065352175  8.768844e-42  0.055893820
+18 Clostridium_sensu_stricto -0.003488206  7.932391e-41 -0.003999190
+49          O__Clostridiales  0.076751228  3.838574e-34  0.064403297
+45                Klebsiella  0.008985522  1.460597e-24  0.007263895
+60              Ruminococcus -0.016612523  2.996756e-22 -0.019969066
+51        Peptostreptococcus  0.138708752  5.873802e-16  0.105111088
+47               Lactococcus -0.019154778  1.213050e-14 -0.024021274
+71              Turicibacter  0.036106422  8.613472e-12  0.025741883
+3                  Alistipes  0.009553770  6.773908e-11  0.006684233
+41            Granulicatella  0.026290809  9.736934e-11  0.018327566
+13          Chryseobacterium  0.087138619  1.666324e-09  0.058802673
+70             Oscillibacter  0.028692340  1.582906e-06  0.016977458
+11              Buttiauxella -0.027451017  3.428923e-06 -0.039038471
+7                  Atopobium -0.021431690  7.281356e-05 -0.032020844
+24               Eggerthella  0.005720401  5.449331e-04  0.002477729
+52     Phascolarctobacterium -0.015896929  1.104422e-02 -0.028157592
+56             Robinsoniella -0.003894611  1.585314e-02 -0.007059019
+30      F__Coriobacteriaceae  0.035644813  3.296681e-02  0.002883147
+12            Butyricicoccus -0.005220761  4.216416e-02 -0.010256791
+29               Eubacterium -0.004103134  7.593721e-02 -0.008634527
+59                    Rothia  0.007522642  8.896883e-02 -0.001146124
+           upper   fdr
+1   0.0973221386 0.000
+5   0.0611501936 0.000
+8  -0.0152635363 0.000
+9   0.0168932597 0.000
+10  0.0451056520 0.000
+16 -0.0081446338 0.000
+17 -0.0191453738 0.000
+19  0.0822069087 0.000
+22 -0.1086360911 0.000
+25  0.1338673011 0.000
+26  0.0355335012 0.000
+27 -0.0061395019 0.000
+28 -0.0107251778 0.000
+31  0.0510737888 0.000
+32  0.0843063869 0.000
+33  0.0819528657 0.000
+35 -0.0115486309 0.000
+37  0.0791739803 0.000
+38  0.0506342976 0.000
+40 -0.0452809749 0.000
+42 -0.0935886472 0.000
+43  0.1253922161 0.000
+48 -0.1042623954 0.000
+50  0.1043462315 0.000
+55 -0.0953211351 0.000
+57 -0.0692932952 0.000
+58 -0.0512791111 0.000
+61 -0.0769823043 0.000
+62 -0.0822021632 0.000
+65  0.0706045903 0.000
+67  0.0146777567 0.000
+68  0.0876021436 0.000
+2  -0.0385050316 0.000
+63 -0.0064380804 0.000
+53  0.0282213467 0.000
+15 -0.0325157556 0.000
+21 -0.1051562850 0.000
+44  0.0223828062 0.000
+34 -0.0254432794 0.000
+20 -0.0522947785 0.000
+39  0.0807950440 0.000
+64 -0.0319224467 0.000
+54 -0.0989000982 0.000
+46  0.0055643379 0.000
+4  -0.0793829022 0.000
+14 -0.0087747228 0.000
+6   0.0748105293 0.000
+18 -0.0029772218 0.000
+49  0.0890991579 0.000
+45  0.0107071486 0.000
+60 -0.0132559799 0.000
+51  0.1723064161 0.000
+47 -0.0142882815 0.000
+71  0.0464709608 0.000
+3   0.0124233066 0.000
+41  0.0342540525 0.000
+13  0.1154745650 0.000
+70  0.0404072230 0.000
+11 -0.0158635634 0.000
+7  -0.0108425365 0.000
+24  0.0089630736 0.001
+52 -0.0036362655 0.013
+56 -0.0007302021 0.018
+30  0.0684064794 0.037
+12 -0.0001847305 0.046
+29  0.0004282585 0.082
+59  0.0161914090 0.094</code></pre>
+<p>&lt;&gt;</p>
+</div>
+<div id="microbes-associated-with-gran-fdr0.1" class="section level3">
+<h3>Microbes associated with Gran: FDR=0.1</h3>
+<details>
+<summary>
+Click me
+</summary>
+<pre class="r"><code>options(warn = 2)
+m=ncol(longidata)-2
+n=nrow(longidata)
+name=colnames(longidata)[-c(1,2)]
+microbe=c()                            
+rrbcell=data.frame()
+for (k in 1:m) {
+  y1=longidata[,k+2]
+  y2=apply(longidata[,-c(1,2,k+2)],1,sum)
+   if (length(which(y1&gt;0))&lt;=5) {next}
+  fm=try({glm(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longigran,family=&quot;binomial&quot;)},silent = T)
+  if (inherits(fm,&quot;try-error&quot;)){
+    next()
+  }else{
+    fm=glm(cbind(y1,y2)~gran + bbymale + enrollment_age + imrbthwghtg_all +gestage_all+evercigpreg+alpha+deliver , data=longigran,family=&quot;binomial&quot;)   
+   a=summary(fm)
+   r1=a$coefficients[2,1]
+   r2=a$coefficients[2,4]
+   r3= c(r1-1.96*a$coefficients[2,2],r1+ 1.96*a$coefficients[2,2])
+   rr=round(c(r1,r2,r3),3)
+   microbe=c(microbe,name[k])
+    rrbcell=rbind(rrbcell,rr)
+     }
+
+}
+colnames(rrbcell)=c(&quot;coef&quot;,&quot;pvalue&quot;,&quot;lower&quot;,&quot;upper&quot;)
+fdr=round(p.adjust(rrbcell[,2],method = &quot;BH&quot;),3)
+rrbcell=data.frame(microbe,rrbcell,fdr)
+rrbcell=rrbcell[order(rrbcell[,3]),]
+rrbcellfdr=rrbcell[which(rrbcell[,6]&lt;0.1),]</code></pre>
+<pre><code>                     microbe   coef pvalue  lower  upper   fdr
+1              Acinetobacter  0.014  0.000  0.010  0.018 0.000
+2                Actinomyces -0.031  0.000 -0.032 -0.030 0.000
+3                Akkermansia -0.045  0.000 -0.046 -0.044 0.000
+4                  Alistipes -0.054  0.000 -0.055 -0.052 0.000
+5               Anaerococcus  0.042  0.000  0.035  0.050 0.000
+6               Anaerostipes -0.049  0.000 -0.049 -0.048 0.000
+7              Anaerotruncus -0.014  0.000 -0.021 -0.007 0.000
+8                Anaerovorax -0.085  0.000 -0.100 -0.071 0.000
+9                  Atopobium -0.011  0.000 -0.017 -0.005 0.000
+10               Bacteroides  0.004  0.000  0.004  0.004 0.000
+11           Bifidobacterium  0.030  0.000  0.030  0.030 0.000
+12                   Blautia -0.013  0.000 -0.013 -0.012 0.000
+13              Buttiauxella  0.053  0.000  0.046  0.061 0.000
+14            Butyricicoccus  0.005  0.000  0.002  0.007 0.000
+16            Clostridium_IV  0.030  0.000  0.028  0.031 0.000
+17            Clostridium_XI -0.007  0.000 -0.009 -0.005 0.000
+18         Clostridium_XVIII -0.043  0.000 -0.043 -0.043 0.000
+19          Clostridium_XlVa  0.031  0.000  0.030  0.031 0.000
+20 Clostridium_sensu_stricto  0.006  0.000  0.005  0.006 0.000
+21               Collinsella  0.020  0.000  0.018  0.022 0.000
+22             Coprobacillus  0.057  0.000  0.053  0.061 0.000
+23               Coprococcus -0.158  0.000 -0.161 -0.156 0.000
+24           Corynebacterium  0.115  0.000  0.110  0.120 0.000
+25                 Dialister  0.103  0.000  0.100  0.106 0.000
+27               Eggerthella  0.004  0.000  0.002  0.006 0.000
+28            Eisenbergiella -0.101  0.000 -0.104 -0.098 0.000
+29              Enterobacter -0.020  0.000 -0.021 -0.020 0.000
+30              Enterococcus  0.016  0.000  0.016  0.016 0.000
+31      Escherichia/Shigella  0.001  0.000  0.000  0.001 0.000
+34     F__Enterobacteriaceae -0.035  0.000 -0.036 -0.035 0.000
+35    F__Erysipelotrichaceae -0.081  0.000 -0.082 -0.081 0.000
+36        F__Lachnospiraceae  0.004  0.000  0.004  0.004 0.000
+37        F__Ruminococcaceae -0.009  0.000 -0.011 -0.008 0.000
+38          Faecalibacterium  0.035  0.000  0.035  0.036 0.000
+39                Finegoldia  0.019  0.000  0.010  0.028 0.000
+40            Flavonifractor -0.067  0.000 -0.068 -0.066 0.000
+41          Fusicatenibacter  0.037  0.000  0.036  0.038 0.000
+42             Fusobacterium -0.155  0.000 -0.161 -0.149 0.000
+43                   Gemella -0.056  0.000 -0.061 -0.051 0.000
+44                  Gemmiger  0.038  0.000  0.037  0.039 0.000
+46               Haemophilus  0.046  0.000  0.044  0.048 0.000
+47                Hungatella -0.057  0.000 -0.060 -0.054 0.000
+48           Intestinibacter  0.025  0.000  0.023  0.027 0.000
+49                Klebsiella -0.009  0.000 -0.010 -0.008 0.000
+50             Lactobacillus -0.017  0.000 -0.017 -0.016 0.000
+51               Lactococcus  0.039  0.000  0.035  0.043 0.000
+52                 Megamonas  0.143  0.000  0.138  0.148 0.000
+53               Megasphaera  0.035  0.000  0.033  0.038 0.000
+56           Parabacteroides -0.016  0.000 -0.017 -0.016 0.000
+57            Parasutterella -0.052  0.000 -0.056 -0.047 0.000
+59                Prevotella  0.046  0.000  0.045  0.048 0.000
+60         Propionibacterium  0.097  0.000  0.090  0.105 0.000
+61                Raoultella -0.071  0.000 -0.075 -0.067 0.000
+62             Robinsoniella  0.057  0.000  0.054  0.060 0.000
+63                Romboutsia  0.039  0.000  0.036  0.041 0.000
+64                 Roseburia  0.028  0.000  0.027  0.029 0.000
+65                    Rothia -0.020  0.000 -0.026 -0.015 0.000
+66              Ruminococcus  0.048  0.000  0.046  0.050 0.000
+67             Ruminococcus2  0.060  0.000  0.059  0.062 0.000
+68            Staphylococcus  0.023  0.000  0.021  0.024 0.000
+69             Streptococcus -0.022  0.000 -0.022 -0.022 0.000
+70           Subdoligranulum -0.047  0.000 -0.050 -0.043 0.000
+72          Terrisporobacter -0.052  0.000 -0.054 -0.051 0.000
+73              Unclassified -0.060  0.000 -0.073 -0.047 0.000
+74               Varibaculum  0.127  0.000  0.116  0.138 0.000
+75               Veillonella  0.009  0.000  0.009  0.010 0.000
+77                     Dorea  0.079  0.000  0.078  0.081 0.000
+78            Ethanoligenens  0.034  0.000  0.029  0.040 0.000
+79  F__Peptostreptococcaceae  0.021  0.000  0.016  0.025 0.000
+81              Turicibacter  0.048  0.000  0.039  0.057 0.000
+15          Chryseobacterium -0.032  0.002 -0.053 -0.011 0.002
+76          Clostridium_XlVb  0.013  0.004  0.004  0.021 0.005
+80             Oscillibacter -0.011  0.006 -0.019 -0.003 0.007
+32               Eubacterium  0.003  0.014  0.001  0.006 0.015
+45            Granulicatella  0.006  0.025  0.001  0.011 0.027
+58        Peptostreptococcus -0.023  0.056 -0.047  0.001 0.060</code></pre>
+<p>&lt;&gt;</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.2 (2021-11-01)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19043)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] vegan_2.6-2     lattice_0.20-45 permute_0.9-7  
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.9       pillar_1.8.0     compiler_4.1.2   bslib_0.4.0     
+ [5] later_1.3.0      jquerylib_0.1.4  git2r_0.30.1     workflowr_1.7.0 
+ [9] tools_4.1.2      digest_0.6.29    nlme_3.1-153     jsonlite_1.8.0  
+[13] evaluate_0.15    lifecycle_1.0.1  tibble_3.1.7     mgcv_1.8-38     
+[17] pkgconfig_2.0.3  rlang_1.0.4      Matrix_1.3-4     cli_3.3.0       
+[21] rstudioapi_0.13  parallel_4.1.2   yaml_2.3.5       xfun_0.31       
+[25] fastmap_1.1.0    cluster_2.1.2    stringr_1.4.0    knitr_1.39      
+[29] fs_1.5.2         vctrs_0.4.1      sass_0.4.2       grid_4.1.2      
+[33] rprojroot_2.0.3  glue_1.6.2       R6_2.5.1         fansi_1.0.3     
+[37] rmarkdown_2.14   magrittr_2.0.3   whisker_0.4      splines_4.1.2   
+[41] MASS_7.3-54      promises_1.2.0.1 ellipsis_0.3.2   htmltools_0.5.2 
+[45] httpuv_1.6.5     utf8_1.2.2       stringi_1.7.6    cachem_1.0.6    </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
